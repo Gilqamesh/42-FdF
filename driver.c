@@ -6,11 +6,11 @@
 /*   By: gilq <gilq@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:10 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/16 18:39:31 by gilq             ###   ########.fr       */
+/*   Updated: 2021/07/16 18:59:37 by gilq             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minilibx-linux/mlx.h"
+#include "mlx_linux/mlx.h"
 #include "ft_structs.h"
 #include "ft_error.h"
 #include "ft_initialize.h"

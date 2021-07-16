@@ -16,6 +16,7 @@ $(NAME): $(OBJ)
 	rm -f libft.a
 	mv $(LIBNAME) libr/
 	$(CC) -lz -L/usr/lib -Imlx_linux -lXext -lX11 -lm -o $(NAME) -Llibr -lFdF
+	rm -f *.o
 %.o: %.c
 	$(CC) -g $(CFLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@
 ft_get_next_line.o:
