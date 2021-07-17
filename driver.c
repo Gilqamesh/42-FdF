@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   driver.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gilq <gilq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:10 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/16 18:59:37 by gilq             ###   ########.fr       */
+/*   Updated: 2021/07/17 14:09:53 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx_linux/mlx.h"
+#include "mlx/mlx.h"
 #include "ft_structs.h"
 #include "ft_error.h"
 #include "ft_initialize.h"

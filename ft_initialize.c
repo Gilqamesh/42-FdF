@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_initialize.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gilq <gilq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:48:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/16 18:59:50 by gilq             ###   ########.fr       */
+/*   Updated: 2021/07/17 14:09:53 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_initialize.h"
-#include "mlx_linux/mlx.h"
+#include "mlx/mlx.h"
 
 void    initialize_struct(t_mystruct *mystruct)
 {
