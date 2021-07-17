@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:08 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 15:40:48 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/17 18:15:46 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	convert_to_points(t_mystruct *mystruct)
 		x = -1;
 		while(++x < mystruct->width)
 		{
-			*(mystruct->hyperplane_pts + y * mystruct->width + x) = (t_point){
+			*(mystruct->hyperplane_pts + y * mystruct->width + x) = (t_3d_point){
 				x, y, extract_number(&str)
 			};
 		}
@@ -110,5 +110,7 @@ void    parse_map(t_mystruct *mystruct, char **argv)
     free(line);
     mystruct->height = cur_line;
 	mystruct->width = count_numbers(*mystruct->hyperplane);
+	mystruct->screen_pts = malloc(mystruct->height * mystruct->width
+		* sizeof(*mystruct->screen_pts));
 	convert_to_points(mystruct);
 }

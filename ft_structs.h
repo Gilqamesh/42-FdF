@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 17:14:35 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/17 18:14:09 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,18 @@
 
 # define SCREEN_W 1000
 # define SCREEN_H 1000
-typedef struct  s_point
+typedef struct  s_3d_point
 {
     int x;
     int y;
     int z;
-}   t_point;
+}   t_3d_point;
+
+typedef struct	s_2d_point
+{
+	int	x;
+	int	y;
+}	t_2d_point;
 
 typedef struct  s_img
 {
@@ -39,12 +45,13 @@ typedef struct  s_vars
 
 typedef struct  s_mystruct
 {
-    t_vars  vars;
-    t_img  img;
-    char    **hyperplane;
-    int     height;
-	int		width;
-    t_point *hyperplane_pts;
+    t_vars  	vars;
+    t_img  		img;
+    char    	**hyperplane;
+    int     	height;
+	int			width;
+    t_3d_point 	*hyperplane_pts;
+	t_2d_point	*screen_pts;
 }   t_mystruct;
 
 #endif

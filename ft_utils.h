@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:41 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 16:07:18 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/17 18:33:05 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,11 @@ void	convert_to_points(t_mystruct *mystruct);
 char	*ft_strchr_v2(const char *s, int c);
 int		round_to_nearest(double a);
 void	my_mlx_pixel_put(t_img *data, double x, double y, int color);
+double	min_of(double a, double b);
+void	register_hooks(t_mystruct *mystruct);
+int		exit_clicked(t_mystruct *mystruct);
+int		esc_pressed(int keycode, t_mystruct *mystruct);
+double	abs_of(double a);
+void	line_put_parametric(t_img *img, t_2d_point A, t_2d_point B, int color);
 
 #endif

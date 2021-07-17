@@ -6,10 +6,11 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 16:07:18 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/17 18:29:19 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "ft_utils.h"
 #include "libft/libft.h"
 
@@ -57,4 +58,34 @@ void	my_mlx_pixel_put(t_img *data, double x, double y, int color)
 	b = round_to_nearest(y);
 	dst = data->addr + (b * data->ll + a * (data->bpp / 8));
 	*(unsigned int *)dst = color;
+}
+
+double	min_of(double a, double b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+double	abs_of(double a)
+{
+	if (a < 0)
+		return (-a);
+	return (a);
+}
+
+// uses parametric equation of line segment
+void	line_put_parametric(t_img *data, t_2d_point A, t_2d_point B, int color)
+{
+	double	t;
+	double	increment;
+
+	t = 0;
+	increment = 1 / sqrt(pow(abs_of(A.x - B.x), 2) + pow(abs_of(A.y - B.y), 2));
+	while (t <= 1)
+	{
+		my_mlx_pixel_put(data, t * A.x + (1 - t) * B.x, t * A.y + (1 - t) * B.y,
+			color);
+		t += increment;
+	}
 }

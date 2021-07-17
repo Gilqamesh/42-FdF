@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:10 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 16:38:41 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/17 18:21:21 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int main(int argc, char **argv)
     initialize_struct(&mystruct);
     parse_map(&mystruct, argv);
     print_map(&mystruct);
-	// print_points(&mystruct);
-	display_points(&mystruct);
+	// print_3d_points(&mystruct);
+	draw_map(&mystruct);
+	register_hooks(&mystruct);
     mlx_loop(mystruct.vars.mlx);
 }

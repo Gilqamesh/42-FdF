@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 18:33:43 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 15:42:12 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/17 18:12:38 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void    print_map(t_mystruct *mystruct)
     }
 }
 
-void	print_points(t_mystruct *mystruct)
+void	print_3d_points(t_mystruct *mystruct)
 {
 	int		x;
 	int		mul_tmp;
-	t_point	*P;
+	t_3d_point	*P;
 
 	printf("Points\n");
 	P = mystruct->hyperplane_pts;
