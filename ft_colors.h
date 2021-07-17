@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_utils.h                                         :+:      :+:    :+:   */
+/*   ft_colors.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/16 17:45:41 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 16:07:18 by edavid           ###   ########.fr       */
+/*   Created: 2021/07/17 16:53:07 by edavid            #+#    #+#             */
+/*   Updated: 2021/07/17 16:54:19 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_UTILS_H
-# define FT_UTILS_H
+#ifndef FT_COLORS_H
+# define FT_COLORS_H
 
-# include <stdlib.h>
-# include "ft_structs.h"
-void	*ft_realloc(void *src, size_t size);
-void    parse_map(t_mystruct *mystruct, char **argv);
-void	convert_to_points(t_mystruct *mystruct);
-char	*ft_strchr_v2(const char *s, int c);
-int		round_to_nearest(double a);
-void	my_mlx_pixel_put(t_img *data, double x, double y, int color);
+extern int	g_mlx_red;
+extern int	g_mlx_purple;
+extern int	g_mlx_blue;
+extern int	g_mlx_cyan;
+extern int	g_mlx_green;
+extern int	g_mlx_yellow;
+extern int	g_mlx_white;
+extern int	g_mlx_black;
 
 #endif

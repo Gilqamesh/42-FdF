@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 15:13:25 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/17 16:07:18 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,24 @@ char	*ft_strchr_v2(const char *s, int c)
 		s++;
 	}
 	return ((char *)s);
+}
+
+int	round_to_nearest(double a)
+{
+	if ((int)(a * 10) % 10 < 5)
+		return ((int)a);
+	return ((int)(a + 1));
+}
+
+// x and y gets rounded to nearest integer
+void	my_mlx_pixel_put(t_img *data, double x, double y, int color)
+{
+	char	*dst;
+	int		a;
+	int		b;
+
+	a = round_to_nearest(x);
+	b = round_to_nearest(y);
+	dst = data->addr + (b * data->ll + a * (data->bpp / 8));
+	*(unsigned int *)dst = color;
 }
