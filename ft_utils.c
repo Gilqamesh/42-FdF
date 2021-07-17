@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gilq <gilq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/16 18:46:47 by gilq             ###   ########.fr       */
+/*   Updated: 2021/07/17 15:13:25 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,16 @@ void	*ft_realloc(void *src, size_t size)
 	ft_memmove(new, src, size);
 	free(src);
 	return (new);
+}
+
+// returns pointer to null char instead of null in case character was not found
+char	*ft_strchr_v2(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	return ((char *)s);
 }

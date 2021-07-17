@@ -6,7 +6,7 @@
 #    By: edavid <edavid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/15 10:05:25 by edavid            #+#    #+#              #
-#    Updated: 2021/07/17 14:30:02 by edavid           ###   ########.fr        #
+#    Updated: 2021/07/17 14:42:37 by edavid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,10 @@ clean :
 bonus :
 	$(CC) $(FLAGS) -c $(bonus_sources)
 	ar rc $(NAME) *.o
+	make clean
 all : $(NAME)
 	make bonus
+	make clean
 fclean : clean
 	rm -f $(NAME)
 re :

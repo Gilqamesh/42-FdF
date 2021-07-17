@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_structs.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gilq <gilq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/16 18:42:46 by gilq             ###   ########.fr       */
+/*   Updated: 2021/07/17 15:03:06 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ typedef struct  s_mystruct
     t_vars  vars;
     t_data  img;
     char    **hyperplane;
-    int     width;
     int     height;
-    t_point *hyperplane_str;
+	int		width;
+    t_point *hyperplane_pts;
 }   t_mystruct;
 
 #endif

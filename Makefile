@@ -9,9 +9,9 @@ MLX_DIR_NAME = mlx
 FdFLibPath = /Users/edavid/Desktop/Repo/MyProjects/fdf/42-FdF/libFdF.a
 
 $(NAME): $(OBJ)
-	cd $(MLX_DIR_NAME) && $(MAKE) re
-	cp ./$(MLX_DIR_NAME)/libmlx.a .
-	mv libmlx.a $(LIBNAME)
+# cd $(MLX_DIR_NAME) && $(MAKE) re
+# cp ./$(MLX_DIR_NAME)/libmlx.a .
+# mv libmlx.a $(LIBNAME)
 	cd libft && $(MAKE) re
 	cp ./libft/libft.a .
 	ar -x libft.a
