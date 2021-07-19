@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/19 15:00:33 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 19:49:38 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,22 +80,6 @@ double	abs_of(double a)
 	if (a < 0)
 		return (-a);
 	return (a);
-}
-
-// uses parametric equation of line segment
-void	line_put_parametric(t_img *data, t_2d_point A, t_2d_point B, int color)
-{
-	double	t;
-	double	increment;
-
-	t = 0;
-	increment = 1 / sqrt(pow(abs_of(A.x - B.x), 2) + pow(abs_of(A.y - B.y), 2));
-	while (t <= 1)
-	{
-		my_mlx_pixel_put(data, t * A.x + (1 - t) * B.x, t * A.y + (1 - t) * B.y,
-			color);
-		t += increment;
-	}
 }
 
 void	multiply_vec3d_m4x4(t_3d_pointf *i, t_3d_pointf *o,

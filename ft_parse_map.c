@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:08 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/19 09:21:41 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 20:15:29 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,8 @@ void	convert_to_points(t_mystruct *mystruct)
 		{
 			while (*str == ' ')
 				str++;
-			*(mystruct->hyperplane_pts + y * mystruct->width + x) = (t_3d_point){
-				x, y, ft_atoi(str)
-			};
+			*(mystruct->hyperplane_pts + y * mystruct->width + x) =
+				(t_3d_pointf){x, y, ft_atoi(str)};
 			while (*str && *str != ' ')
 				str++;
 		}
@@ -74,6 +73,59 @@ static int	count_numbers(char *str)
 	return (number_counter);
 }
 
+void	convert_to_trigons(t_mystruct *mystruct)
+{
+	int	y;
+	int	x;
+	int	trigon_counter;
+
+	mystruct->n_of_trigons = (mystruct->width - 1) * (mystruct->height - 1) * 2;
+	mystruct->trigons = malloc(mystruct->n_of_trigons
+		* sizeof(*mystruct->trigons));
+	trigon_counter = 0;
+	y = -1;
+	printf("*****\nTrigons:\n");
+	while (++y < mystruct->height)
+	{
+		x = -1;
+		while (++x < mystruct->width)
+		{
+			if (x < mystruct->width - 1)
+			{
+				// Top triangle in the square
+				if (y < mystruct->height - 1)
+				{
+					(mystruct->trigons)[trigon_counter++] = (t_tri){
+						*(mystruct->hyperplane_pts + y * mystruct->width + x),
+						*(mystruct->hyperplane_pts + y * mystruct->width + x
+						+ 1), *(mystruct->hyperplane_pts + (y + 1)
+						* mystruct->width + x)};
+					printf("%d.: %f %f %f  %f %f %f  %f %f %f\n", trigon_counter, ((mystruct->trigons)[trigon_counter - 1].p)[0].x,
+					((mystruct->trigons)[trigon_counter - 1].p)[0].y, ((mystruct->trigons)[trigon_counter - 1].p)[0].z,
+					((mystruct->trigons)[trigon_counter - 1].p)[1].x, ((mystruct->trigons)[trigon_counter - 1].p)[1].y,
+					((mystruct->trigons)[trigon_counter - 1].p)[1].z, ((mystruct->trigons)[trigon_counter - 1].p)[2].x,
+					((mystruct->trigons)[trigon_counter - 1].p)[2].y, ((mystruct->trigons)[trigon_counter - 1].p)[2].z);
+				}
+				// Bottom triangle in the square
+				if (y > 0)
+				{
+					(mystruct->trigons)[trigon_counter++] = (t_tri){
+						*(mystruct->hyperplane_pts + y * mystruct->width + x),
+						*(mystruct->hyperplane_pts + (y - 1) * mystruct->width
+						+ x + 1), *(mystruct->hyperplane_pts + y
+						* mystruct->width + x + 1)};
+					printf("%d.: %f %f %f  %f %f %f  %f %f %f\n", trigon_counter, ((mystruct->trigons)[trigon_counter - 1].p)[0].x,
+					((mystruct->trigons)[trigon_counter - 1].p)[0].y, ((mystruct->trigons)[trigon_counter - 1].p)[0].z,
+					((mystruct->trigons)[trigon_counter - 1].p)[1].x, ((mystruct->trigons)[trigon_counter - 1].p)[1].y,
+					((mystruct->trigons)[trigon_counter - 1].p)[1].z, ((mystruct->trigons)[trigon_counter - 1].p)[2].x,
+					((mystruct->trigons)[trigon_counter - 1].p)[2].y, ((mystruct->trigons)[trigon_counter - 1].p)[2].z);
+				}
+			}
+		}
+	}
+	printf("/n*****\n");
+}
+
 void    parse_map(t_mystruct *mystruct, char **argv)
 {
     int     fd;
@@ -100,4 +152,5 @@ void    parse_map(t_mystruct *mystruct, char **argv)
 	mystruct->screen_pts = malloc(mystruct->height * mystruct->width
 		* sizeof(*mystruct->screen_pts));
 	convert_to_points(mystruct);
+	convert_to_trigons(mystruct);
 }

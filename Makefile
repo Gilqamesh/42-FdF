@@ -2,7 +2,8 @@ NAME = FdF.out
 CC = gcc
 OBJ = driver.o ft_error.o ft_initialize.o ft_parse_map.o \
 ft_test_utils.o ft_get_next_line.o ft_get_next_line_utils.o \
-ft_utils.o ft_display.o ft_colors.o ft_hooks.o
+ft_utils.o ft_display.o ft_colors.o ft_hooks.o ft_view_port.o \
+ft_draw_shapes.o
 CFLAGS = -Wall -Wextra -Werror
 LIBNAME = libFdF.a
 MLX_DIR_NAME = mlx

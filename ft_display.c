@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:00:26 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/19 15:39:19 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 20:35:57 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "ft_utils.h"
 #include "mlx/mlx.h"
 #include "ft_colors.h"
+#include "ft_view_port.h"
+#include "ft_test_utils.h"
 
 void	connect_points(t_mystruct *mystruct)
 {
@@ -41,7 +43,7 @@ void	connect_points(t_mystruct *mystruct)
 	}
 }
 
-static void	calculate_average(t_2d_pointf *average, t_3d_point *Z, int i)
+static void	calculate_average(t_2d_pointf *average, t_3d_pointf *Z, int i)
 {
 	t_2d_pointf	P;
 
@@ -60,7 +62,7 @@ void	draw_map(t_mystruct *mystruct)
 {
 	int			i;
 	int			tmp_mul;
-	t_3d_point	Z;
+	t_3d_pointf	Z;
 	t_3d_pointf	max;
 	t_2d_pointf	average;
 	double		zoom_ratio;
@@ -115,10 +117,12 @@ void	draw_map2(t_mystruct *mystruct)
 	int			tmp_mul;
 	int			i;
 	t_3d_pointf	Z;
+	t_3d_pointf	V;
 	t_3d_pointf	W;
 	t_3d_pointf max_W;
 	t_2d_pointf	max_min_Z;
 	double		ratio;
+	t_2d_pointf	average;
 
 	tmp_mul = mystruct->width * mystruct->height;
 	ft_bzero(&max_W, sizeof(t_3d_pointf));
@@ -130,6 +134,9 @@ void	draw_map2(t_mystruct *mystruct)
 			(mystruct->hyperplane_pts)[i].y,
 			(mystruct->hyperplane_pts)[i].z
 		};
+		multiply_vec3d_m4x4(&Z, &V, &g_matRotZ);
+		multiply_vec3d_m4x4(&V, &Z, &g_matRotX);
+		// printf("%f %f %f\n", Z.x, Z.y, Z.z);
 		if (!i)
 		{
 			max_min_Z.y = Z.z;
@@ -142,7 +149,6 @@ void	draw_map2(t_mystruct *mystruct)
 			if (Z.z > max_min_Z.x)
 				max_min_Z.x = Z.z;
 		}
-		multiply_vec3d_m4x4(&Z, &W, &mystruct->projection_mat);
 	}
 	i = -1;
 	while (++i < tmp_mul)
@@ -154,9 +160,9 @@ void	draw_map2(t_mystruct *mystruct)
 		};
 		// translate all of our points
 		if (max_min_Z.y <= 0)
-			Z.z += abs_of(max_min_Z.y) + 3.0f;
+			Z.z += abs_of(max_min_Z.y) + 1.0f;
 		// denormalize Z.z
-		Z.z *= 5.0 / (max_min_Z.x + abs_of(max_min_Z.y) + 3.0f);
+		Z.z *= 2.0 / (max_min_Z.x + abs_of(max_min_Z.y) + 1.0f);
 		// printf("o: %f %f %f\n", Z.x, Z.y, Z.z);
 		multiply_vec3d_m4x4(&Z, &W, &mystruct->projection_mat);
 		if (abs_of(W.x) > max_W.x)
@@ -184,8 +190,67 @@ void	draw_map2(t_mystruct *mystruct)
 		// my_mlx_pixel_put(&mystruct->img, W.x, W.y, g_mlx_green);
 		// printf("%f %f\n", W.x, W.y);
 		mystruct->screen_pts[i] = (t_2d_point){W.x, W.y};
+		calculate_average(&average, &W, i);
 	}
 	connect_points(mystruct);
+	// clear previous screen
 	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
-		mystruct->img.img, SCREEN_W / 2, SCREEN_H / 2);
+		mystruct->blank_img.img, 0, 0);
+	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
+		mystruct->img.img, SCREEN_W / 2 - W.x, SCREEN_H / 2 - W.y);
+}
+
+void	draw_map3(t_mystruct *mystruct)
+{
+	int	tmp_mul;
+	int	i;
+	t_tri	triProjected;
+	t_tri	triTranslated;
+
+	tmp_mul = mystruct->width * mystruct->height;
+	i = -1;
+	while (++i < mystruct->n_of_trigons)
+	{
+		triTranslated = *(mystruct->trigons + i);
+		(triTranslated.p)[0].z += 3.0f;
+		(triTranslated.p)[1].z += 3.0f;
+		(triTranslated.p)[2].z += 3.0f;
+
+		multiply_vec3d_m4x4(&(triTranslated.p)[0],
+			&(triProjected.p)[0], &mystruct->projection_mat);
+		multiply_vec3d_m4x4(&(triTranslated.p)[1],
+			&(triProjected.p)[1], &mystruct->projection_mat);
+		multiply_vec3d_m4x4(&(triTranslated.p)[1],
+			&(triProjected.p)[2], &mystruct->projection_mat);
+		// Scale into view
+		(triProjected.p)[0].x += 1.0f;
+		(triProjected.p)[0].y += 1.0f;
+		(triProjected.p)[1].x += 1.0f;
+		(triProjected.p)[1].y += 1.0f;
+		(triProjected.p)[2].x += 1.0f;
+		(triProjected.p)[2].y += 1.0f;
+
+		(triProjected.p)[0].x *= 0.1f * SCREEN_W;
+		(triProjected.p)[0].y *= 0.1f * SCREEN_H;
+		(triProjected.p)[1].x *= 0.1f * SCREEN_W;
+		(triProjected.p)[1].y *= 0.1f * SCREEN_H;
+		(triProjected.p)[2].x *= 0.1f * SCREEN_W;
+		(triProjected.p)[2].y *= 0.1f * SCREEN_H;
+		printf("*****\nProjected triangles:\n");
+		printf("%d.: ", i);
+		print_3d_point((triProjected.p)[0]);
+		print_3d_point((triProjected.p)[1]);
+		print_3d_point((triProjected.p)[2]);
+		draw_triangle(mystruct, &(t_tri2d){
+			(t_2d_point){(triProjected.p)[0].x, (triProjected.p)[0].y},
+			(t_2d_point){(triProjected.p)[1].x, (triProjected.p)[1].y},
+			(t_2d_point){(triProjected.p)[2].x, (triProjected.p)[2].y}
+		});
+		printf("*****\n");
+	}
+	// clear previous screen
+	// mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
+	// 	mystruct->blank_img.img, 0, 0);
+	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
+		mystruct->img.img, 0, 0);
 }
