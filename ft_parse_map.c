@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:08 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 18:15:46 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 09:21:41 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,6 @@
 #include "gnl/ft_get_next_line.h"
 #include "libft/libft.h"
 #include "ft_utils.h"
-
-int	extract_number(char **str)
-{
-	char	*number_str;
-	char	*space_pointer;
-	int		result;
-
-	if (!str || !*str)
-		return (0);
-	space_pointer = ft_strchr_v2(*str, ' ');
-	number_str = ft_strdup_v2(*str, space_pointer - *str);
-	result = ft_atoi(number_str);
-	free(number_str);
-	if (*space_pointer)
-		*str = space_pointer + 1;
-	return (result);
-}
 
 void	convert_to_points(t_mystruct *mystruct)
 {
@@ -49,11 +32,15 @@ void	convert_to_points(t_mystruct *mystruct)
 	{
 		str = *(mystruct->hyperplane + y);
 		x = -1;
-		while(++x < mystruct->width)
+		while (++x < mystruct->width)
 		{
+			while (*str == ' ')
+				str++;
 			*(mystruct->hyperplane_pts + y * mystruct->width + x) = (t_3d_point){
-				x, y, extract_number(&str)
+				x, y, ft_atoi(str)
 			};
+			while (*str && *str != ' ')
+				str++;
 		}
 	}
 }
