@@ -6,11 +6,12 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/19 11:47:19 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 15:00:33 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
+#include <stdio.h>
 #include "ft_utils.h"
 #include "libft/libft.h"
 
@@ -67,6 +68,13 @@ double	min_of(double a, double b)
 	return (b);
 }
 
+double	max_of(double a, double b)
+{
+	if (a < b)
+		return (b);
+	return (a);
+}
+
 double	abs_of(double a)
 {
 	if (a < 0)
@@ -103,7 +111,7 @@ t_mat4x4 *m)
 		+ (m->m)[3][2];
 	w = i->x * (m->m)[0][3] + i->y * (m->m)[1][3] + i->z * (m->m)[2][3]
 		+ (m->m)[3][3];
-	if (!w)
+	if (w != 0.0f)
 	{
 		o->x /= w;
 		o->y /= w;

@@ -6,12 +6,14 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:48:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/19 11:39:23 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 14:32:29 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
+#include "libft/libft.h"
 #include "ft_initialize.h"
 #include "mlx/mlx.h"
 
@@ -23,6 +25,7 @@ static void	initialize_proj_matr(t_mystruct *mystruct)
 	float	fAspectRatio = (float)SCREEN_H / (float)SCREEN_W;
 	float	fFovRad = 1.0f / tanf(fFov * 0.5f / 180.0f * 3.14159f);
 
+	ft_bzero(&mystruct->projection_mat, sizeof(mystruct->projection_mat));
 	(mystruct->projection_mat.m)[0][0] = fAspectRatio * fFovRad;
 	(mystruct->projection_mat.m)[1][1] = fFovRad;
 	(mystruct->projection_mat.m)[2][2] = fFar / (fFar - fNear);

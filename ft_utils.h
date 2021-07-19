@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:41 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/19 11:49:36 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 14:31:28 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ double	abs_of(double a);
 void	line_put_parametric(t_img *img, t_2d_point A, t_2d_point B, int color);
 void	multiply_vec3d_m4x4(t_3d_pointf *i, t_3d_pointf *o,
 	t_mat4x4 *m);
+double	max_of(double a, double b);
 
 #endif
