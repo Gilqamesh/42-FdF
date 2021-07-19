@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/17 18:29:19 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 11:47:19 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,26 @@ void	line_put_parametric(t_img *data, t_2d_point A, t_2d_point B, int color)
 		my_mlx_pixel_put(data, t * A.x + (1 - t) * B.x, t * A.y + (1 - t) * B.y,
 			color);
 		t += increment;
+	}
+}
+
+void	multiply_vec3d_m4x4(t_3d_pointf *i, t_3d_pointf *o,
+t_mat4x4 *m)
+{
+	float	w;
+
+	o->x = i->x * (m->m)[0][0] + i->y * (m->m)[1][0] + i->z * (m->m)[2][0]
+		+ (m->m)[3][0];
+	o->y = i->x * (m->m)[0][1] + i->y * (m->m)[1][1] + i->z * (m->m)[2][1]
+		+ (m->m)[3][1];
+	o->z = i->x * (m->m)[0][2] + i->y * (m->m)[1][2] + i->z * (m->m)[2][2]
+		+ (m->m)[3][2];
+	w = i->x * (m->m)[0][3] + i->y * (m->m)[1][3] + i->z * (m->m)[2][3]
+		+ (m->m)[3][3];
+	if (!w)
+	{
+		o->x /= w;
+		o->y /= w;
+		o->z /= w;
 	}
 }

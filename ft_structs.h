@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/19 09:59:25 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 11:56:04 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,28 @@ typedef struct  s_vars
     void    *win;
 }   t_vars;
 
-typedef struct s_3d_pointf
+typedef struct	s_3d_pointf
 {
 	double	x;
 	double	y;
 	double	z;
 }	t_3d_pointf;
 
-typedef struct s_2d_pointf
+typedef struct	s_2d_pointf
 {
 	double	x;
 	double	y;
 }	t_2d_pointf;
+
+typedef struct	s_mat4x4
+{
+	float	m[4][4];
+}	t_mat4x4;
+
+typedef struct	s_tri
+{
+	t_3d_pointf	p[3];
+}	t_tri;
 
 typedef struct  s_mystruct
 {
@@ -65,6 +75,7 @@ typedef struct  s_mystruct
 	int			width;
     t_3d_point 	*hyperplane_pts;
 	t_2d_point	*screen_pts;
+	t_mat4x4	projection_mat;
 }   t_mystruct;
 
 #endif

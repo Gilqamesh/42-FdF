@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:00:26 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/19 10:17:15 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/19 11:58:37 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,30 @@ void	draw_map(t_mystruct *mystruct)
 	connect_points(mystruct);
 	// origin
 	my_mlx_pixel_put(&mystruct->img, SCREEN_W / 2, SCREEN_H / 2, g_mlx_green);
+	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
+		mystruct->img.img, 0, 0);
+}
+
+void	draw_map2(t_mystruct *mystruct)
+{
+	int			tmp_mul;
+	int			i;
+	t_3d_pointf	Z;
+	t_3d_pointf	W;
+
+	tmp_mul = mystruct->width * mystruct->height;
+	i = -1;
+	while (++i < tmp_mul)
+	{
+		Z = (t_3d_pointf){
+			(mystruct->hyperplane_pts)[i].x,
+			(mystruct->hyperplane_pts)[i].y,
+			(mystruct->hyperplane_pts)[i].z
+		};
+		multiply_vec3d_m4x4(&Z, &W, &mystruct->projection_mat);
+		my_mlx_pixel_put(&mystruct->img, W.x + SCREEN_W / 2, W.y + SCREEN_H / 2,
+			g_mlx_green);
+	}
 	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
 		mystruct->img.img, 0, 0);
 }
