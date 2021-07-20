@@ -6,12 +6,13 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:48:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 13:28:08 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 17:05:35 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <float.h>
 #include <math.h>
 #include "libft/libft.h"
 #include "ft_initialize.h"
@@ -97,6 +98,7 @@ void    initialize_struct(t_mystruct *mystruct)
 	mystruct->trigons = (t_tri *)0;
 	mystruct->blank_img = get_blank_image(mystruct);
 	mystruct->camera_position = (t_3d_pointf){0.0f, 0.0f, 0.0f};
+	mystruct->maxima_Z = (t_2d_pointf){FLT_MAX, FLT_MIN};
 	initialize_proj_matr(mystruct);
 	initialize_global_vars();
 }

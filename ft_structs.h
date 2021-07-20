@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 15:45:16 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 16:26:20 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 # define SCREEN_W 1000
 # define SCREEN_H 1000
 # define MAX_Z 1.5f
+
+typedef struct	s_rgba
+{
+	unsigned char	alpha;
+	unsigned char	red;
+	unsigned char	green;
+	unsigned char	blue;
+}				t_rgba;
+
 typedef struct  s_3d_point
 {
     int x;
@@ -103,6 +112,7 @@ typedef struct  s_mystruct
 	t_tri		*trigons;
 	int			n_of_trigons;
 	t_3d_pointf	camera_position;
+	t_2d_pointf	maxima_Z;
 }   t_mystruct;
 
 #endif

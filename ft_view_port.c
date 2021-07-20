@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 18:21:30 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 13:25:30 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 16:20:11 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	move_camera_angle(t_mystruct *mystruct, int keycode)
 	(g_matRotX.m)[2][1] = -sinf(g_fThetaX * 0.5f);
 	(g_matRotX.m)[2][2] = cosf(g_fThetaX * 0.5f);
 	(g_matRotX.m)[3][3] = 1;
-	
 	draw_map3(mystruct);
 }
 

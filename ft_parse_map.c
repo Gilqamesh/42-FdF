@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:08 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 15:45:29 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 17:03:10 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	convert_to_points(t_mystruct *mystruct)
 {
 	t_2d_point	iter;
 	char		*str;
-	t_2d_point	maxima;
-	int			tmp;
+	t_2d_pointf	maxima;
+	double		tmp;
 
 	mystruct->hyperplane_pts = malloc(mystruct->height * mystruct->width
 		* sizeof(*mystruct->hyperplane_pts));
@@ -39,7 +39,7 @@ void	convert_to_points(t_mystruct *mystruct)
 				str++;
 			tmp = ft_atoi(str);
 			if (!iter.y && !iter.x)
-				maxima = (t_2d_point){tmp, tmp};
+				maxima = (t_2d_pointf){tmp, tmp};
 			else
 			{
 				if (tmp < maxima.x)
@@ -59,10 +59,20 @@ void	convert_to_points(t_mystruct *mystruct)
 	{
 		iter.x = -1;
 		while (++iter.x < mystruct->width)
-			(mystruct->hyperplane_pts + iter.y * mystruct->width + iter.x)->z
-				= round_to_nearest((mystruct->hyperplane_pts + iter.y
-				* mystruct->width + iter.x)->z * MAX_Z
-				/ max_of(abs_of(maxima.x), abs_of(maxima.y)));
+		{
+			tmp = (mystruct->hyperplane_pts + iter.y * mystruct->width
+				+ iter.x)->z;
+			tmp = tmp * MAX_Z / max_of(abs_of(maxima.x), abs_of(maxima.y));
+			// if (!iter.x && !iter.y)
+			// 	mystruct->maxima_Z = (t_2d_pointf){tmp, tmp};
+			// else
+			// {
+			// 	if (tmp < mystruct->maxima_Z.x)
+			// 		mystruct->maxima_Z.x = tmp;
+			// 	if (tmp > mystruct->maxima_Z.y)
+			// 		mystruct->maxima_Z.y = tmp;;
+			// }
+		}
 	}
 }
 

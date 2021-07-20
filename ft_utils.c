@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 15:42:33 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 16:46:49 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ double	abs_of(double a)
 }
 
 void	multiply_vec3d_m4x4(t_3d_pointf *i, t_3d_pointf *o,
-t_mat4x4 *m)
+t_mat4x4 *m, t_mystruct *mystruct)
 {
 	float	w;
 
@@ -101,6 +101,10 @@ t_mat4x4 *m)
 		o->y /= w;
 		o->z /= w;
 	}
+	if (o->z < mystruct->maxima_Z.x)
+		mystruct->maxima_Z.x = o->z;
+	if (o->z > mystruct->maxima_Z.y)
+		mystruct->maxima_Z.y = o->z;
 }
 
 double	min_of_3(double a, double b, double c)

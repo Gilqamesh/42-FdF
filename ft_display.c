@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:00:26 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 13:32:01 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 17:06:53 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ void	draw_map2(t_mystruct *mystruct)
 			(mystruct->hyperplane_pts)[i].y,
 			(mystruct->hyperplane_pts)[i].z
 		};
-		multiply_vec3d_m4x4(&Z, &V, &g_matRotZ);
-		multiply_vec3d_m4x4(&V, &Z, &g_matRotX);
+		multiply_vec3d_m4x4(&Z, &V, &g_matRotZ, mystruct);
+		multiply_vec3d_m4x4(&V, &Z, &g_matRotX, mystruct);
 		// printf("%f %f %f\n", Z.x, Z.y, Z.z);
 		if (!i)
 		{
@@ -164,7 +164,7 @@ void	draw_map2(t_mystruct *mystruct)
 		// denormalize Z.z
 		Z.z *= 2.0 / (max_min_Z.x + abs_of(max_min_Z.y) + 1.0f);
 		// printf("o: %f %f %f\n", Z.x, Z.y, Z.z);
-		multiply_vec3d_m4x4(&Z, &W, &mystruct->projection_mat);
+		multiply_vec3d_m4x4(&Z, &W, &mystruct->projection_mat, mystruct);
 		if (abs_of(W.x) > max_W.x)
 			max_W.x = abs_of(W.x);
 		if (abs_of(W.y) > max_W.y)
@@ -181,7 +181,7 @@ void	draw_map2(t_mystruct *mystruct)
 			(mystruct->hyperplane_pts)[i].y,
 			(mystruct->hyperplane_pts)[i].z
 		};
-		multiply_vec3d_m4x4(&Z, &W, &mystruct->projection_mat);
+		multiply_vec3d_m4x4(&Z, &W, &mystruct->projection_mat, mystruct);
 		// scale them between 0 and 1
 		W = (t_3d_pointf){W.x / ratio, W.y / ratio, W.z};
 		// scale them up to the size of screen
@@ -214,6 +214,8 @@ void	clear_img(t_img *img)
 	}
 }
 
+// Optimize: Only run the matrix multiplications if there was a corresponding
+// button press
 void	draw_map3(t_mystruct *mystruct)
 {
 	int			i;
@@ -242,37 +244,52 @@ void	draw_map3(t_mystruct *mystruct)
 		// (triTranslated.p)[1].z += 3.0f;
 		// (triTranslated.p)[2].z += 3.0f;
 
+		// printf("Z values: %f %f %f\n", vertCamera.p[0].z,
+		// 	vertCamera.p[1].z, vertCamera.p[2].z);
+		
 		// Change camera position
 		multiply_vec3d_m4x4(&(vertCamera.p)[0],
-			&(triTranslated.p)[0], &worldToCamera);
+			&(triTranslated.p)[0], &worldToCamera, mystruct);
 		multiply_vec3d_m4x4(&(vertCamera.p)[1],
-			&(triTranslated.p)[1], &worldToCamera);
+			&(triTranslated.p)[1], &worldToCamera, mystruct);
 		multiply_vec3d_m4x4(&(vertCamera.p)[2],
-			&(triTranslated.p)[2], &worldToCamera);
+			&(triTranslated.p)[2], &worldToCamera, mystruct);
 
+		// printf("Z values: %f %f %f\n", triTranslated.p[0].z,
+		// 	triTranslated.p[1].z, triTranslated.p[2].z);
+		
 		// Rotate Z
 		multiply_vec3d_m4x4(&(triTranslated.p)[0],
-			&(triRotatedZ.p)[0], &g_matRotZ);
+			&(triRotatedZ.p)[0], &g_matRotZ, mystruct);
 		multiply_vec3d_m4x4(&(triTranslated.p)[1],
-			&(triRotatedZ.p)[1], &g_matRotZ);
+			&(triRotatedZ.p)[1], &g_matRotZ, mystruct);
 		multiply_vec3d_m4x4(&(triTranslated.p)[2],
-			&(triRotatedZ.p)[2], &g_matRotZ);
+			&(triRotatedZ.p)[2], &g_matRotZ, mystruct);
+
+		// printf("Z values: %f %f %f\n", triRotatedZ.p[0].z,
+		// 	triRotatedZ.p[1].z, triRotatedZ.p[2].z);
 
 		// Rotate X
 		multiply_vec3d_m4x4(&(triRotatedZ.p)[0],
-			&(triRotatedZX.p)[0], &g_matRotX);
+			&(triRotatedZX.p)[0], &g_matRotX, mystruct);
 		multiply_vec3d_m4x4(&(triRotatedZ.p)[1],
-			&(triRotatedZX.p)[1], &g_matRotX);
+			&(triRotatedZX.p)[1], &g_matRotX, mystruct);
 		multiply_vec3d_m4x4(&(triRotatedZ.p)[2],
-			&(triRotatedZX.p)[2], &g_matRotX);
+			&(triRotatedZX.p)[2], &g_matRotX, mystruct);
 
+		// printf("Z values: %f %f %f\n", triRotatedZX.p[0].z,
+		// 	triRotatedZX.p[1].z, triRotatedZX.p[2].z);
+		
 		// Projection matrix
 		multiply_vec3d_m4x4(&(triRotatedZX.p)[0],
-			&(triProjected.p)[0], &mystruct->projection_mat);
+			&(triProjected.p)[0], &mystruct->projection_mat, mystruct);
 		multiply_vec3d_m4x4(&(triRotatedZX.p)[1],
-			&(triProjected.p)[1], &mystruct->projection_mat);
+			&(triProjected.p)[1], &mystruct->projection_mat, mystruct);
 		multiply_vec3d_m4x4(&(triRotatedZX.p)[2],
-			&(triProjected.p)[2], &mystruct->projection_mat);
+			&(triProjected.p)[2], &mystruct->projection_mat, mystruct);
+
+		// printf("Z values: %f %f %f\n", triProjected.p[0].z,
+		// 	triProjected.p[1].z, triProjected.p[2].z);
 
 		// If outside of observed space
 		if ((triProjected.p)[0].x > 1 || (triProjected.p)[0].x < -1 ||
@@ -317,10 +334,11 @@ void	draw_map3(t_mystruct *mystruct)
 			(t_2d_point){(triProjected.p)[1].x, (triProjected.p)[1].y},
 			(t_2d_point){(triProjected.p)[2].x, (triProjected.p)[2].y}
 		};
+		printf("%f %f\n", mystruct->maxima_Z.x, mystruct->maxima_Z.y);
 		draw_triangle(mystruct, &tri2d);
-		shade_triangle(mystruct, &tri2d);
 		// printf("*****\n");
 	}
+	shade_triangle(mystruct, &tri2d);
 	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
 		mystruct->img.img, 0, 0);
 }
