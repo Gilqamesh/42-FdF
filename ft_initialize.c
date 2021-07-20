@@ -6,13 +6,12 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:48:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 17:05:35 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:03:14 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <float.h>
 #include <math.h>
 #include "libft/libft.h"
 #include "ft_initialize.h"

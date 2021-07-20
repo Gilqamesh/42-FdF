@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:08 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 17:03:10 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:00:54 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,10 @@ void	convert_to_trigons(t_mystruct *mystruct)
 	mystruct->n_of_trigons = (mystruct->width - 1) * (mystruct->height - 1) * 2;
 	mystruct->trigons = malloc(mystruct->n_of_trigons
 		* sizeof(*mystruct->trigons));
+	mystruct->projected_trigons = malloc(mystruct->n_of_trigons
+		* sizeof(*mystruct->projected_trigons));
+	mystruct->projected_trigons_index = malloc(mystruct->n_of_trigons
+		* sizeof(*mystruct->projected_trigons_index));
 	trigon_counter = 0;
 	y = -1;
 	// printf("*****\nTrigons:\n");

@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 13:31:48 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 16:13:33 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:04:44 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void	shade_triangle(t_mystruct *mystruct, t_tri2d *tri2d)
 				&(t_line){(t_2d_point){0, iter_y}, (t_2d_point){1, iter_y}});
 			// printf("%d %d, %d %d\n", P.x, P.y, Q.x, Q.y);
 			line_put_parametric(&mystruct->img, Q, P, g_mlx_green);
+			line_put_gradient(&mystruct->img, Q, P, );
 		}
 		else
 		{

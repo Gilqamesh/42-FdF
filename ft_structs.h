@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 16:26:20 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:00:11 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,9 @@ typedef struct  s_mystruct
 	t_mat4x4	projection_mat;
 	t_img		blank_img;
 	t_tri		*trigons;
+	t_tri		*projected_trigons;
+	// 1 displayed, 0 not displayed triangle
+	int			*projected_trigons_index;
 	int			n_of_trigons;
 	t_3d_pointf	camera_position;
 	t_2d_pointf	maxima_Z;

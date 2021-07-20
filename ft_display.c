@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:00:26 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 17:06:53 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:02:44 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,7 +298,10 @@ void	draw_map3(t_mystruct *mystruct)
 			(triProjected.p)[1].y > 1 || (triProjected.p)[1].y < -1 ||
 			(triProjected.p)[2].x > 1 || (triProjected.p)[2].x < -1 ||
 			(triProjected.p)[2].y > 1 || (triProjected.p)[2].y < -1)
-			continue ;
+			{
+				*(mystruct->projected_trigons_index + i) = 0;
+				continue ;
+			}
 		// Scale into view
 		(triProjected.p)[0].x += 1.0f;
 		(triProjected.p)[0].y += 1.0f;
@@ -329,16 +332,28 @@ void	draw_map3(t_mystruct *mystruct)
 		// print_3d_point((triProjected.p)[0]);
 		// print_3d_point((triProjected.p)[1]);
 		// print_3d_point((triProjected.p)[2]);
-		tri2d = (t_tri2d){
-			(t_2d_point){(triProjected.p)[0].x, (triProjected.p)[0].y},
-			(t_2d_point){(triProjected.p)[1].x, (triProjected.p)[1].y},
-			(t_2d_point){(triProjected.p)[2].x, (triProjected.p)[2].y}
-		};
-		printf("%f %f\n", mystruct->maxima_Z.x, mystruct->maxima_Z.y);
-		draw_triangle(mystruct, &tri2d);
+		*(mystruct->projected_trigons + i) = triProjected;
+		*(mystruct->projected_trigons_index + i) = 1;
 		// printf("*****\n");
 	}
-	shade_triangle(mystruct, &tri2d);
+	printf("%f %f\n", mystruct->maxima_Z.x, mystruct->maxima_Z.y);
+	i = -1;
+	while (++i < mystruct->n_of_trigons)
+	{
+		if (!*(mystruct->projected_trigons_index + i))
+			continue ;
+		tri2d = (t_tri2d){
+			(t_2d_point){(mystruct->projected_trigons + i)->p[0].x,
+				(mystruct->projected_trigons + i)->p[0].y},
+			(t_2d_point){(mystruct->projected_trigons + i)->p[1].x,
+				(mystruct->projected_trigons + i)->p[1].y},
+			(t_2d_point){(mystruct->projected_trigons + i)->p[2].x,
+				(mystruct->projected_trigons + i)->p[2].y}
+		};
+		draw_triangle(mystruct, &tri2d);
+		shade_triangle(mystruct, &tri2d);
+	}
+	mystruct->maxima_Z = (t_2d_pointf){FLT_MAX, FLT_MIN};
 	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
 		mystruct->img.img, 0, 0);
 }

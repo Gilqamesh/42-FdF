@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 17:55:23 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 13:21:36 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 18:43:27 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,5 @@ void	register_hooks(t_mystruct *mystruct)
 	mlx_key_hook(mystruct->vars.win, key_press_listener, mystruct);
 	// mlx_hook(mystruct->vars.win, 9, (1L << 10), mouse_wheel_listener, mystruct);
 	mlx_hook(mystruct->vars.win, 17, (1L << 17), destroy_window, mystruct);
-	mlx_loop_hook(mystruct->vars.mlx, update_elapsed_time, mystruct);
+	// mlx_loop_hook(mystruct->vars.mlx, update_elapsed_time, mystruct);
 }

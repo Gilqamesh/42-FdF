@@ -6,13 +6,14 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:41 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 16:44:15 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:03:05 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_UTILS_H
 # define FT_UTILS_H
 
+# include <float.h>
 # include <stdlib.h>
 # include "ft_structs.h"
 void	*ft_realloc(void *src, size_t size);
