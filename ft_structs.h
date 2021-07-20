@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 11:54:33 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 14:27:30 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,17 @@ typedef struct	s_quad
 	t_3d_pointf	p[4];
 }	t_quad;
 
+typedef struct	s_extrema
+{
+	int	min;
+	int	max;
+}	t_extrema;
+
+typedef struct	s_line
+{
+	t_2d_point	p[2];
+}	t_line;
+
 // camera_position and camera_distance are placeholders
 typedef struct  s_mystruct
 {
@@ -91,7 +102,6 @@ typedef struct  s_mystruct
 	t_tri		*trigons;
 	int			n_of_trigons;
 	t_3d_pointf	camera_position;
-	t_3d_pointf	camera_distance;
 }   t_mystruct;
 
 #endif

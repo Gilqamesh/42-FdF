@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:41 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 11:53:18 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 14:59:42 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,8 @@ void	move_camera_position(t_mystruct *mystruct, int keycode);
 t_img	get_blank_image(t_mystruct *mystruct);
 void	clear_img(t_img *img);
 void	move_camera_distance(t_mystruct *mystruct, int keycode);
+double	min_of_3(double a, double b, double c);
+double	max_of_3(double a, double b, double c);
+void	shade_triangle(t_mystruct *mystruct, t_tri2d *tri2d);
 
 #endif

@@ -3,19 +3,20 @@ CC = gcc
 OBJ = driver.o ft_error.o ft_initialize.o ft_parse_map.o \
 ft_test_utils.o ft_get_next_line.o ft_get_next_line_utils.o \
 ft_utils.o ft_display.o ft_colors.o ft_hooks.o ft_view_port.o \
-ft_draw_shapes.o
+ft_draw_shapes.o ft_shader.o
 CFLAGS = -Wall -Wextra -Werror
 LIBNAME = libFdF.a
 MLX_DIR_NAME = mlx
 FdFLibPath = /Users/edavid/Desktop/Repo/MyProjects/fdf/42-FdF/libFdF.a
 
 $(NAME): $(OBJ)
-	cd $(MLX_DIR_NAME) && $(MAKE) re
-	cp ./$(MLX_DIR_NAME)/libmlx.a .
-	mv libmlx.a $(LIBNAME)
-	cd libft && $(MAKE) re
-	cp ./libft/libft.a .
-	ar -x libft.a
+# For now no need to make re libmlx
+# cd $(MLX_DIR_NAME) && $(MAKE) re
+# cp ./$(MLX_DIR_NAME)/libmlx.a .
+# mv libmlx.a $(LIBNAME)
+# cd libft && $(MAKE) re
+# cp ./libft/libft.a .
+# ar -x libft.a
 	ar -rs $(LIBNAME) *.o
 	rm -f libft.a *.o
 	$(CC) -lm -lz -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(FdFLibPath)

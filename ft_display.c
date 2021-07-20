@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:00:26 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 11:58:33 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 13:32:01 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,9 @@ void	draw_map3(t_mystruct *mystruct)
 	t_tri		triProjected;
 	t_tri		triTranslated;
 	t_tri		vertCamera;
+	t_tri		triRotatedZ;
+	t_tri		triRotatedZX;
+	t_tri2d		tri2d;
 	t_mat4x4	worldToCamera;
 
 	// clear previous screen
@@ -230,7 +233,6 @@ void	draw_map3(t_mystruct *mystruct)
 	worldToCamera.m[3][0] = mystruct->camera_position.x;
 	worldToCamera.m[3][1] = mystruct->camera_position.y;
 	worldToCamera.m[3][2] = mystruct->camera_position.z;
-	worldToCamera.m[0][1] = mystruct->camera_distance.x;
 	i = -1;
 	while (++i < mystruct->n_of_trigons)
 	{
@@ -240,6 +242,7 @@ void	draw_map3(t_mystruct *mystruct)
 		// (triTranslated.p)[1].z += 3.0f;
 		// (triTranslated.p)[2].z += 3.0f;
 
+		// Change camera position
 		multiply_vec3d_m4x4(&(vertCamera.p)[0],
 			&(triTranslated.p)[0], &worldToCamera);
 		multiply_vec3d_m4x4(&(vertCamera.p)[1],
@@ -247,12 +250,30 @@ void	draw_map3(t_mystruct *mystruct)
 		multiply_vec3d_m4x4(&(vertCamera.p)[2],
 			&(triTranslated.p)[2], &worldToCamera);
 
+		// Rotate Z
 		multiply_vec3d_m4x4(&(triTranslated.p)[0],
-			&(triProjected.p)[0], &mystruct->projection_mat);
+			&(triRotatedZ.p)[0], &g_matRotZ);
 		multiply_vec3d_m4x4(&(triTranslated.p)[1],
-			&(triProjected.p)[1], &mystruct->projection_mat);
+			&(triRotatedZ.p)[1], &g_matRotZ);
 		multiply_vec3d_m4x4(&(triTranslated.p)[2],
+			&(triRotatedZ.p)[2], &g_matRotZ);
+
+		// Rotate X
+		multiply_vec3d_m4x4(&(triRotatedZ.p)[0],
+			&(triRotatedZX.p)[0], &g_matRotX);
+		multiply_vec3d_m4x4(&(triRotatedZ.p)[1],
+			&(triRotatedZX.p)[1], &g_matRotX);
+		multiply_vec3d_m4x4(&(triRotatedZ.p)[2],
+			&(triRotatedZX.p)[2], &g_matRotX);
+
+		// Projection matrix
+		multiply_vec3d_m4x4(&(triRotatedZX.p)[0],
+			&(triProjected.p)[0], &mystruct->projection_mat);
+		multiply_vec3d_m4x4(&(triRotatedZX.p)[1],
+			&(triProjected.p)[1], &mystruct->projection_mat);
+		multiply_vec3d_m4x4(&(triRotatedZX.p)[2],
 			&(triProjected.p)[2], &mystruct->projection_mat);
+
 		// If outside of observed space
 		if ((triProjected.p)[0].x > 1 || (triProjected.p)[0].x < -1 ||
 			(triProjected.p)[0].y > 1 || (triProjected.p)[0].y < -1 ||
@@ -291,11 +312,13 @@ void	draw_map3(t_mystruct *mystruct)
 		// print_3d_point((triProjected.p)[0]);
 		// print_3d_point((triProjected.p)[1]);
 		// print_3d_point((triProjected.p)[2]);
-		draw_triangle(mystruct, &(t_tri2d){
+		tri2d = (t_tri2d){
 			(t_2d_point){(triProjected.p)[0].x, (triProjected.p)[0].y},
 			(t_2d_point){(triProjected.p)[1].x, (triProjected.p)[1].y},
 			(t_2d_point){(triProjected.p)[2].x, (triProjected.p)[2].y}
-		});
+		};
+		draw_triangle(mystruct, &tri2d);
+		shade_triangle(mystruct, &tri2d);
 		// printf("*****\n");
 	}
 	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,

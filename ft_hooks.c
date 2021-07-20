@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 17:55:23 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 11:53:36 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 13:21:36 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static int	wasd_pressed(int keycode)
 	return (0);
 }
 
-// MAC: q - 12, e - 14
-static int	qe_pressed(int keycode)
+// MAC: q - 12, e - 14, r - 15, t - 17
+static int	qert_pressed(int keycode)
 {
-	if (keycode == 12 || keycode == 14)
+	if (keycode == 12 || keycode == 14 || keycode == 15 || keycode == 17)
 		return (1);
 	return (0);
 }
@@ -56,19 +56,19 @@ int	key_press_listener(int keycode, t_mystruct *mystruct)
 	if (wasd_pressed(keycode))
 		move_camera_position(mystruct, keycode);
 	if (xyz_pressed(keycode))
-		move_camera_angle(mystruct, keycode);
-	if (qe_pressed(keycode))
 		move_camera_distance(mystruct, keycode);
+	if (qert_pressed(keycode))
+		move_camera_angle(mystruct, keycode);
 	return (0);
 }
 
 int	update_elapsed_time(t_mystruct *mystruct)
 {
-	g_fElapsedTime += 0.0001;
+	g_fElapsedTime += 0.00001;
 	if (g_fElapsedTime > 1000.0f)
 		g_fElapsedTime = 0.0f;
 	// printf("elapsed time: %f\n", g_fElapsedTime);
-	// move_camera_angle(mystruct, 0);
+	move_camera_angle(mystruct, 0);
 	(void)mystruct;
 	return (0);
 }

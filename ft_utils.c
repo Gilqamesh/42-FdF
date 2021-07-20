@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 10:25:58 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 13:40:48 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,51 @@ t_mat4x4 *m)
 		o->x /= w;
 		o->y /= w;
 		o->z /= w;
+	}
+}
+
+double	min_of_3(double a, double b, double c)
+{
+	if (a > b)
+	{
+		if (a > c)
+		{
+			if (b > c)
+				return (c);
+			else
+				return (b); 
+		}
+		else
+			return (b);
+	}
+	else
+	{
+		if (b > c)
+		{
+			if (a > c)
+				return (c);
+			else
+				return (a);
+		}
+		else
+			return (a);
+	}
+}
+
+double	max_of_3(double a, double b, double c)
+{
+	if (a > b)
+	{
+		if (a > c)
+			return (a);
+		else
+			return (c);
+	}
+	else
+	{
+		if (b > c)
+			return (b);
+		else
+			return (c);
 	}
 }

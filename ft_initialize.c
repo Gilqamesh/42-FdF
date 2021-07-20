@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:48:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 11:54:55 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 13:28:08 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,30 @@
 static void	initialize_global_vars(void)
 {
 	g_fElapsedTime = 0.0f;
-	g_fTheta = 1.0f;
+	g_fThetaX = 0.0f;
+	g_fThetaY = 0.0f;
 	ft_bzero(&g_matRotZ, sizeof(g_matRotZ));
 	ft_bzero(&g_matRotX, sizeof(g_matRotX));
 	// Rotation Z
-	(g_matRotZ.m)[0][0] = cosf(g_fTheta);
-	(g_matRotZ.m)[0][1] = sinf(g_fTheta);
-	(g_matRotZ.m)[1][0] = -sinf(g_fTheta);
-	(g_matRotZ.m)[1][1] = cosf(g_fTheta);
+	(g_matRotZ.m)[0][0] = cosf(g_fThetaY);
+	(g_matRotZ.m)[0][1] = sinf(g_fThetaY);
+	(g_matRotZ.m)[1][0] = -sinf(g_fThetaY);
+	(g_matRotZ.m)[1][1] = cosf(g_fThetaY);
 	(g_matRotZ.m)[2][2] = 1;
 	(g_matRotZ.m)[3][3] = 1;
 	// Rotation X
 	(g_matRotX.m)[0][0] = 1;
-	(g_matRotX.m)[1][1] = cosf(g_fTheta * 0.5f);
-	(g_matRotX.m)[1][2] = sinf(g_fTheta * 0.5f);
-	(g_matRotX.m)[2][1] = -sinf(g_fTheta * 0.5f);
-	(g_matRotX.m)[2][2] = cosf(g_fTheta * 0.5f);
+	(g_matRotX.m)[1][1] = cosf(g_fThetaX * 0.5f);
+	(g_matRotX.m)[1][2] = sinf(g_fThetaX * 0.5f);
+	(g_matRotX.m)[2][1] = -sinf(g_fThetaX * 0.5f);
+	(g_matRotX.m)[2][2] = cosf(g_fThetaX * 0.5f);
 	(g_matRotX.m)[3][3] = 1;
 }
 
 static void	initialize_proj_matr(t_mystruct *mystruct)
 {
 	float	fNear = 0.1f;
-	float	fFar = 1000.0f;
+	float	fFar = 100.0f;
 	float	fFov = 90.0f;
 	// float	fAspectRatio = (float)SCREEN_H / (float)SCREEN_W;
 	float	fFovRad = 1.0f / tanf(fFov * 0.5f / 180.0f * 3.14159f);
@@ -96,7 +97,6 @@ void    initialize_struct(t_mystruct *mystruct)
 	mystruct->trigons = (t_tri *)0;
 	mystruct->blank_img = get_blank_image(mystruct);
 	mystruct->camera_position = (t_3d_pointf){0.0f, 0.0f, 0.0f};
-	mystruct->camera_distance = (t_3d_pointf){0.0f, 0.0f, 0.0f};
 	initialize_proj_matr(mystruct);
 	initialize_global_vars();
 }
