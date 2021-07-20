@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:47:11 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 16:11:56 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:09:05 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	line_put_parametric(t_img *data, t_2d_point A, t_2d_point B, int color)
 	}
 }
 
-void	draw_triangle(t_mystruct *mystruct, t_tri2d *T)
+void	draw_triangle(t_mystruct *mystruct, t_tri *T)
 {
 	line_put_parametric(&mystruct->img, (t_2d_point){(T->p)[0].x, (T->p)[0].y},
 		(t_2d_point){(T->p)[1].x, (T->p)[1].y}, g_mlx_red);

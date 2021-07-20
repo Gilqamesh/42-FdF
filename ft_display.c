@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:00:26 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 19:02:44 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 20:20:01 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,6 @@ void	draw_map3(t_mystruct *mystruct)
 	t_tri		vertCamera;
 	t_tri		triRotatedZ;
 	t_tri		triRotatedZX;
-	t_tri2d		tri2d;
 	t_mat4x4	worldToCamera;
 
 	// clear previous screen
@@ -327,6 +326,18 @@ void	draw_map3(t_mystruct *mystruct)
 		(triProjected.p)[2].x = min_of(SCREEN_W - 1, (triProjected.p)[2].x);
 		(triProjected.p)[2].y = min_of(SCREEN_H - 1, (1 - (triProjected.p)[2].y * 0.5f) * SCREEN_H);
 		
+		if ((triProjected.p)[0].z < mystruct->maxima_Z.x)
+			mystruct->maxima_Z.x = (triProjected.p)[0].z;
+		if ((triProjected.p)[0].z > mystruct->maxima_Z.y)
+			mystruct->maxima_Z.y = (triProjected.p)[0].z;
+		if ((triProjected.p)[1].z < mystruct->maxima_Z.x)
+			mystruct->maxima_Z.x = (triProjected.p)[1].z;
+		if ((triProjected.p)[1].z > mystruct->maxima_Z.y)
+			mystruct->maxima_Z.y = (triProjected.p)[1].z;
+		if ((triProjected.p)[2].z < mystruct->maxima_Z.x)
+			mystruct->maxima_Z.x = (triProjected.p)[2].z;
+		if ((triProjected.p)[2].z > mystruct->maxima_Z.y)
+			mystruct->maxima_Z.y = (triProjected.p)[2].z;
 		// printf("*****\nProjected triangles:\n");
 		// printf("%d.:\n", i);
 		// print_3d_point((triProjected.p)[0]);
@@ -342,16 +353,8 @@ void	draw_map3(t_mystruct *mystruct)
 	{
 		if (!*(mystruct->projected_trigons_index + i))
 			continue ;
-		tri2d = (t_tri2d){
-			(t_2d_point){(mystruct->projected_trigons + i)->p[0].x,
-				(mystruct->projected_trigons + i)->p[0].y},
-			(t_2d_point){(mystruct->projected_trigons + i)->p[1].x,
-				(mystruct->projected_trigons + i)->p[1].y},
-			(t_2d_point){(mystruct->projected_trigons + i)->p[2].x,
-				(mystruct->projected_trigons + i)->p[2].y}
-		};
-		draw_triangle(mystruct, &tri2d);
-		shade_triangle(mystruct, &tri2d);
+		// draw_triangle(mystruct, mystruct->projected_trigons + i);
+		shade_triangle(mystruct, mystruct->projected_trigons + i);
 	}
 	mystruct->maxima_Z = (t_2d_pointf){FLT_MAX, FLT_MIN};
 	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,

@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:53:07 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 16:13:13 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:47:40 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int		get_blue_from_hex(int hex);
 t_rgba	make_rgba(int red, int green, int blue, int alpha);
 t_rgba	hex_to_rgba(int hex);
 int		rgba_to_hex(t_rgba rgba);
+int		get_relative_color(t_2d_point colors, float ratio);
 
 #endif

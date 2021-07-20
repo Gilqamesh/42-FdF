@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 13:31:48 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 19:04:44 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 20:11:52 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_colors.h"
 
 // 0 - bottom point, 1 - mid point, 2 - top point of the triangle on 2d plane
-static void	sort_tri_by_y(t_tri2d *dst, t_tri2d *src)
+static void	sort_tri_by_y(t_tri *dst, t_tri *src)
 {
 	if ((*src).p[0].y > (*src).p[1].y)
 	{
@@ -100,14 +100,23 @@ static t_2d_point	get_intersection(t_line *f, t_line *g)
 	return ((t_2d_point){f->p[1].x, f_params.y * f->p[1].x * f_params.x});
 }
 
-void	shade_triangle(t_mystruct *mystruct, t_tri2d *tri2d)
+// maxima_Z should be updated in this function
+void	shade_triangle(t_mystruct *mystruct, t_tri *tri)
 {
-	t_tri2d		sorted;
+	t_tri		sorted;
 	int			iter_y;
 	t_2d_point	Q;
 	t_2d_point	P;
+	float		relative_Z;
+	float		cur_Z;
+	float		increment_Z;
 
-	sort_tri_by_y(&sorted, tri2d);
+	increment_Z = (sorted.p[2].z - sorted.p[0].z) / (float)(sorted.p[2].y
+		- sorted.p[0].y);
+	relative_Z = mystruct->maxima_Z.y - mystruct->maxima_Z.x;
+	cur_Z = sorted.p[2].z;
+	printf("sorted z: %f %f, cur_Z: %f, increment_Z: %f, relative_Z: %f\n", sorted.p[2].z, sorted.p[0].z, cur_Z, increment_Z, relative_Z);
+	sort_tri_by_y(&sorted, tri);
 	// printf("sorted: %d %d, %d %d, %d %d\n", sorted.p[0].x, sorted.p[0].y,
 	// 	sorted.p[1].x, sorted.p[1].y, sorted.p[2].x, sorted.p[2].y);
 	iter_y = sorted.p[2].y;
@@ -119,21 +128,48 @@ void	shade_triangle(t_mystruct *mystruct, t_tri2d *tri2d)
 		if (iter_y <= sorted.p[1].y)
 		{
 			Q = get_intersection(&(t_line){sorted.p[2], sorted.p[0]},
-				&(t_line){(t_2d_point){0, iter_y}, (t_2d_point){1, iter_y}});
+				&(t_line){(t_3d_pointf){0, iter_y, 0},
+				(t_3d_pointf){1, iter_y, 0}});
 			P = get_intersection(&(t_line){sorted.p[2], sorted.p[1]},
-				&(t_line){(t_2d_point){0, iter_y}, (t_2d_point){1, iter_y}});
+				&(t_line){(t_3d_pointf){0, iter_y, 0},
+				(t_3d_pointf){1, iter_y, 0}});
 			// printf("%d %d, %d %d\n", P.x, P.y, Q.x, Q.y);
-			line_put_parametric(&mystruct->img, Q, P, g_mlx_green);
-			line_put_gradient(&mystruct->img, Q, P, );
+			// line_put_parametric(&mystruct->img, Q, P, g_mlx_green);
+			line_put_gradient(&mystruct->img, Q, P, (t_2d_point){
+				get_relative_color((t_2d_point){
+					g_mlx_blue,
+					g_mlx_green
+				}, cur_Z / relative_Z),
+				get_relative_color((t_2d_point){
+					g_mlx_blue,
+					g_mlx_green
+				}, cur_Z / relative_Z)
+			});
+			printf("Ratio: %f\n", cur_Z / relative_Z);
+			cur_Z += increment_Z;
 		}
 		else
 		{
 			Q = get_intersection(&(t_line){sorted.p[2], sorted.p[0]},
-				&(t_line){(t_2d_point){0, iter_y}, (t_2d_point){1, iter_y}});
+				&(t_line){(t_3d_pointf){0, iter_y, 0},
+				(t_3d_pointf){1, iter_y, 0}});
 			P = get_intersection(&(t_line){sorted.p[1], sorted.p[0]},
-				&(t_line){(t_2d_point){0, iter_y}, (t_2d_point){1, iter_y}});
+				&(t_line){(t_3d_pointf){0, iter_y, 0},
+				(t_3d_pointf){1, iter_y, 0}});
 			// printf("%d %d, %d %d\n", P.x, P.y, Q.x, Q.y);
-			line_put_parametric(&mystruct->img, Q, P, g_mlx_green);
+			// line_put_parametric(&mystruct->img, Q, P, g_mlx_green);
+			line_put_gradient(&mystruct->img, Q, P, (t_2d_point){
+				get_relative_color((t_2d_point){
+					g_mlx_blue,
+					g_mlx_green
+				}, cur_Z / relative_Z),
+				get_relative_color((t_2d_point){
+					g_mlx_blue,
+					g_mlx_green
+				}, cur_Z / relative_Z)
+			});
+			printf("Ratio: %f\n", cur_Z / relative_Z);
+			cur_Z += increment_Z;
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 16:46:49 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 20:20:22 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,7 @@ t_mat4x4 *m, t_mystruct *mystruct)
 		o->y /= w;
 		o->z /= w;
 	}
-	if (o->z < mystruct->maxima_Z.x)
-		mystruct->maxima_Z.x = o->z;
-	if (o->z > mystruct->maxima_Z.y)
-		mystruct->maxima_Z.y = o->z;
+	(void)mystruct;
 }
 
 double	min_of_3(double a, double b, double c)

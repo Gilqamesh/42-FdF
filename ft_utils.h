@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:41 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 19:03:05 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:10:10 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ double	max_of(double a, double b);
 int		update_elapsed_time(t_mystruct *mystruct);
 void	draw_map3(t_mystruct *mystruct);
 void	convert_to_trigons(t_mystruct *mystruct);
-void	draw_triangle(t_mystruct *mystruct, t_tri2d *T);
+void	draw_triangle(t_mystruct *mystruct, t_tri *T);
 void	move_camera_position(t_mystruct *mystruct, int keycode);
 t_img	get_blank_image(t_mystruct *mystruct);
 void	clear_img(t_img *img);
 void	move_camera_distance(t_mystruct *mystruct, int keycode);
 double	min_of_3(double a, double b, double c);
 double	max_of_3(double a, double b, double c);
-void	shade_triangle(t_mystruct *mystruct, t_tri2d *tri2d);
+void	shade_triangle(t_mystruct *mystruct, t_tri *tri2d);
 void	line_put_gradient(t_img *data, t_2d_point A, t_2d_point B,
 		t_2d_point colors);
 

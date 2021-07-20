@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 19:00:11 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 20:16:12 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct	s_extrema
 
 typedef struct	s_line
 {
-	t_2d_point	p[2];
+	t_3d_pointf	p[2];
 }	t_line;
 
 // camera_position and camera_distance are placeholders
