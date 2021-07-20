@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:41 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/19 20:01:52 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 11:53:18 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,9 @@ int		update_elapsed_time(t_mystruct *mystruct);
 void	draw_map3(t_mystruct *mystruct);
 void	convert_to_trigons(t_mystruct *mystruct);
 void	draw_triangle(t_mystruct *mystruct, t_tri2d *T);
+void	move_camera_position(t_mystruct *mystruct, int keycode);
+t_img	get_blank_image(t_mystruct *mystruct);
+void	clear_img(t_img *img);
+void	move_camera_distance(t_mystruct *mystruct, int keycode);
 
 #endif

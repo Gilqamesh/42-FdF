@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:00:26 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/19 20:35:57 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 11:58:33 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,28 +200,67 @@ void	draw_map2(t_mystruct *mystruct)
 		mystruct->img.img, SCREEN_W / 2 - W.x, SCREEN_H / 2 - W.y);
 }
 
+void	clear_img(t_img *img)
+{
+	int	y;
+	int	x;
+
+	y = -1;
+	while (++y < SCREEN_H)
+	{
+		x = -1;
+		while (++x < SCREEN_W)
+			my_mlx_pixel_put(img, x, y, g_mlx_blank);
+	}
+}
+
 void	draw_map3(t_mystruct *mystruct)
 {
-	int	tmp_mul;
-	int	i;
-	t_tri	triProjected;
-	t_tri	triTranslated;
+	int			i;
+	t_tri		triProjected;
+	t_tri		triTranslated;
+	t_tri		vertCamera;
+	t_mat4x4	worldToCamera;
 
-	tmp_mul = mystruct->width * mystruct->height;
+	// clear previous screen
+	clear_img(&mystruct->img);
+	worldToCamera = mystruct->projection_mat;
+	// worldToCamera.m[3][1] = -10.0f;
+	// worldToCamera.m[3][2] = -20.0f;
+	worldToCamera.m[3][0] = mystruct->camera_position.x;
+	worldToCamera.m[3][1] = mystruct->camera_position.y;
+	worldToCamera.m[3][2] = mystruct->camera_position.z;
+	worldToCamera.m[0][1] = mystruct->camera_distance.x;
 	i = -1;
 	while (++i < mystruct->n_of_trigons)
 	{
-		triTranslated = *(mystruct->trigons + i);
-		(triTranslated.p)[0].z += 3.0f;
-		(triTranslated.p)[1].z += 3.0f;
-		(triTranslated.p)[2].z += 3.0f;
+		vertCamera = *(mystruct->trigons + i);
+		// triTranslated = *(mystruct->trigons + i);
+		// (triTranslated.p)[0].z += 3.0f;
+		// (triTranslated.p)[1].z += 3.0f;
+		// (triTranslated.p)[2].z += 3.0f;
+
+		multiply_vec3d_m4x4(&(vertCamera.p)[0],
+			&(triTranslated.p)[0], &worldToCamera);
+		multiply_vec3d_m4x4(&(vertCamera.p)[1],
+			&(triTranslated.p)[1], &worldToCamera);
+		multiply_vec3d_m4x4(&(vertCamera.p)[2],
+			&(triTranslated.p)[2], &worldToCamera);
 
 		multiply_vec3d_m4x4(&(triTranslated.p)[0],
 			&(triProjected.p)[0], &mystruct->projection_mat);
 		multiply_vec3d_m4x4(&(triTranslated.p)[1],
 			&(triProjected.p)[1], &mystruct->projection_mat);
-		multiply_vec3d_m4x4(&(triTranslated.p)[1],
+		multiply_vec3d_m4x4(&(triTranslated.p)[2],
 			&(triProjected.p)[2], &mystruct->projection_mat);
+		// If outside of observed space
+		if ((triProjected.p)[0].x > 1 || (triProjected.p)[0].x < -1 ||
+			(triProjected.p)[0].y > 1 || (triProjected.p)[0].y < -1 ||
+			(triProjected.p)[1].x > 1 || (triProjected.p)[0].x < -1 ||
+			(triProjected.p)[1].y > 1 || (triProjected.p)[1].y < -1 ||
+			(triProjected.p)[2].x > 1 || (triProjected.p)[2].x < -1 ||
+			(triProjected.p)[2].y > 1 || (triProjected.p)[2].y < -1)
+			continue ;
 		// Scale into view
 		(triProjected.p)[0].x += 1.0f;
 		(triProjected.p)[0].y += 1.0f;
@@ -229,28 +268,36 @@ void	draw_map3(t_mystruct *mystruct)
 		(triProjected.p)[1].y += 1.0f;
 		(triProjected.p)[2].x += 1.0f;
 		(triProjected.p)[2].y += 1.0f;
+		// printf("%f %f %f %f %f %f\n", (triProjected.p)[0].x, (triProjected.p)[0].y,
+		// 	(triProjected.p)[1].x, (triProjected.p)[1].y, (triProjected.p)[2].x,
+		// 	(triProjected.p)[2].y);
 
-		(triProjected.p)[0].x *= 0.1f * SCREEN_W;
-		(triProjected.p)[0].y *= 0.1f * SCREEN_H;
-		(triProjected.p)[1].x *= 0.1f * SCREEN_W;
-		(triProjected.p)[1].y *= 0.1f * SCREEN_H;
-		(triProjected.p)[2].x *= 0.1f * SCREEN_W;
-		(triProjected.p)[2].y *= 0.1f * SCREEN_H;
-		printf("*****\nProjected triangles:\n");
-		printf("%d.: ", i);
-		print_3d_point((triProjected.p)[0]);
-		print_3d_point((triProjected.p)[1]);
-		print_3d_point((triProjected.p)[2]);
+		(triProjected.p)[0].x *= 0.5f * SCREEN_W;
+		// (triProjected.p)[0].y *= 0.5f * SCREEN_H;
+		(triProjected.p)[1].x *= 0.5f * SCREEN_W;
+		// (triProjected.p)[1].y *= 0.5f * SCREEN_H;
+		(triProjected.p)[2].x *= 0.5f * SCREEN_W;
+		// (triProjected.p)[2].y *= 0.5f * SCREEN_H;
+
+		(triProjected.p)[0].x = min_of(SCREEN_W - 1, (triProjected.p)[0].x);
+		(triProjected.p)[0].y = min_of(SCREEN_H - 1, (1 - (triProjected.p)[0].y * 0.5f) * SCREEN_H);
+		(triProjected.p)[1].x = min_of(SCREEN_W - 1, (triProjected.p)[1].x);
+		(triProjected.p)[1].y = min_of(SCREEN_H - 1, (1 - (triProjected.p)[1].y * 0.5f) * SCREEN_H);
+		(triProjected.p)[2].x = min_of(SCREEN_W - 1, (triProjected.p)[2].x);
+		(triProjected.p)[2].y = min_of(SCREEN_H - 1, (1 - (triProjected.p)[2].y * 0.5f) * SCREEN_H);
+		
+		// printf("*****\nProjected triangles:\n");
+		// printf("%d.:\n", i);
+		// print_3d_point((triProjected.p)[0]);
+		// print_3d_point((triProjected.p)[1]);
+		// print_3d_point((triProjected.p)[2]);
 		draw_triangle(mystruct, &(t_tri2d){
 			(t_2d_point){(triProjected.p)[0].x, (triProjected.p)[0].y},
 			(t_2d_point){(triProjected.p)[1].x, (triProjected.p)[1].y},
 			(t_2d_point){(triProjected.p)[2].x, (triProjected.p)[2].y}
 		});
-		printf("*****\n");
+		// printf("*****\n");
 	}
-	// clear previous screen
-	// mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
-	// 	mystruct->blank_img.img, 0, 0);
 	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
 		mystruct->img.img, 0, 0);
 }

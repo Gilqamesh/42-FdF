@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:54:56 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/17 16:56:10 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 11:40:07 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,3 +20,4 @@ int	g_mlx_green = 0x0000FF00;
 int	g_mlx_yellow = 0x00FFFF00;
 int	g_mlx_white = 0x00FFFFFF;
 int	g_mlx_black = 0x00000000;
+int	g_mlx_blank = 0x00000000;

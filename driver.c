@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:10 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/19 19:42:38 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 11:01:39 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
         ft_error("usage: ./FdF.out filePath");
     initialize_struct(&mystruct);
     parse_map(&mystruct, argv);
-    print_map(&mystruct);
+    // print_map(&mystruct);
 	// print_3d_points(&mystruct);
 	draw_map3(&mystruct);
 	register_hooks(&mystruct);

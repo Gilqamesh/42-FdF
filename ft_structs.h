@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/19 20:13:34 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 11:54:33 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct	s_quad
 	t_3d_pointf	p[4];
 }	t_quad;
 
+// camera_position and camera_distance are placeholders
 typedef struct  s_mystruct
 {
     t_vars  	vars;
@@ -89,6 +90,8 @@ typedef struct  s_mystruct
 	t_img		blank_img;
 	t_tri		*trigons;
 	int			n_of_trigons;
+	t_3d_pointf	camera_position;
+	t_3d_pointf	camera_distance;
 }   t_mystruct;
 
 #endif
