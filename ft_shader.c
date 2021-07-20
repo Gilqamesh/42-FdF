@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 13:31:48 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 15:13:28 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 15:30:04 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static t_2d_point	get_intersection(t_line *f, t_line *g)
 	int			is_g_vertical;
 
 	// .x is constant, .y is slope, 0.00001f is arbitrary value
-	if (f->p[0].x - f->p[1].x < 0.00001f)
+	if (abs_of(f->p[0].x - f->p[1].x) < 0.00001f)
 		is_f_vertical = 1;
 	else
 	{
@@ -82,7 +82,7 @@ static t_2d_point	get_intersection(t_line *f, t_line *g)
 		f_params.x = f->p[0].y - f->p[0].x * f_params.y;
 		is_f_vertical = 0;
 	}
-	if (g->p[0].x - g->p[1].x < 0.00001f)
+	if (abs_of(g->p[0].x - g->p[1].x) < 0.00001f)
 		is_g_vertical = 1;
 	else
 	{
@@ -90,7 +90,7 @@ static t_2d_point	get_intersection(t_line *f, t_line *g)
 		g_params.x = g->p[0].y - g->p[0].x * g_params.y;
 		is_g_vertical = 0;
 	}
-	printf("%d %d, %f %f, %f %f\n", is_f_vertical, is_g_vertical, f_params.x, f_params.y, g_params.x, g_params.y);
+	// printf("%d %d, %f %f, %f %f\n", is_f_vertical, is_g_vertical, f_params.x, f_params.y, g_params.x, g_params.y);
 	if (!is_f_vertical && !is_g_vertical)
 		return ((t_2d_point){(g_params.x - f_params.x)
 			/ (f_params.y - g_params.y), (g_params.x - f_params.x)

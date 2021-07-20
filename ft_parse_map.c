@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:08 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 10:59:43 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 15:45:29 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,48 @@
 
 void	convert_to_points(t_mystruct *mystruct)
 {
-	int		y;
-	int		x;
-	char	*str;
+	t_2d_point	iter;
+	char		*str;
+	t_2d_point	maxima;
+	int			tmp;
 
 	mystruct->hyperplane_pts = malloc(mystruct->height * mystruct->width
 		* sizeof(*mystruct->hyperplane_pts));
-	y = -1;
-	while (++y < mystruct->height)
+	iter.y = -1;
+	while (++iter.y < mystruct->height)
 	{
-		str = *(mystruct->hyperplane + y);
-		x = -1;
-		while (++x < mystruct->width)
+		str = *(mystruct->hyperplane + iter.y);
+		iter.x = -1;
+		while (++iter.x < mystruct->width)
 		{
 			while (*str == ' ')
 				str++;
-			*(mystruct->hyperplane_pts + y * mystruct->width + x) =
-				(t_3d_pointf){x, y, ft_atoi(str)};
+			tmp = ft_atoi(str);
+			if (!iter.y && !iter.x)
+				maxima = (t_2d_point){tmp, tmp};
+			else
+			{
+				if (tmp < maxima.x)
+					maxima.x = tmp;
+				if (tmp > maxima.y)
+					maxima.y = tmp;
+			}
+			*(mystruct->hyperplane_pts + iter.y * mystruct->width + iter.x) =
+				(t_3d_pointf){iter.x, iter.y, ft_atoi(str)};
 			while (*str && *str != ' ')
 				str++;
 		}
+	}
+	// normalize Z-values
+	iter.y = -1;
+	while (++iter.y < mystruct->height)
+	{
+		iter.x = -1;
+		while (++iter.x < mystruct->width)
+			(mystruct->hyperplane_pts + iter.y * mystruct->width + iter.x)->z
+				= round_to_nearest((mystruct->hyperplane_pts + iter.y
+				* mystruct->width + iter.x)->z * MAX_Z
+				/ max_of(abs_of(maxima.x), abs_of(maxima.y)));
 	}
 }
 

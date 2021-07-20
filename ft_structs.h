@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 14:27:30 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/20 15:45:16 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define SCREEN_W 1000
 # define SCREEN_H 1000
+# define MAX_Z 1.5f
 typedef struct  s_3d_point
 {
     int x;
