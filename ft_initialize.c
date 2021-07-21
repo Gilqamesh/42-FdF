@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:48:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 20:02:08 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/21 14:57:42 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,22 @@ static void	initialize_proj_matr(t_mystruct *mystruct)
 	float	fNear = 0.1f;
 	float	fFar = 100.0f;
 	float	fFov = 90.0f;
-	// float	fAspectRatio = (float)SCREEN_H / (float)SCREEN_W;
+	float	fAspectRatio = (float)SCREEN_H / (float)SCREEN_W;
 	float	fFovRad = 1.0f / tanf(fFov * 0.5f / 180.0f * 3.14159f);
 
 	ft_bzero(&mystruct->projection_mat, sizeof(mystruct->projection_mat));
-	// (mystruct->projection_mat.m)[0][0] = fAspectRatio * fFovRad;
-	// (mystruct->projection_mat.m)[1][1] = fFovRad;
-	// (mystruct->projection_mat.m)[2][2] = fFar / (fFar - fNear);
-	// (mystruct->projection_mat.m)[3][2] = (-fFar * fNear) / (fFar - fNear);
-	// (mystruct->projection_mat.m)[2][3] = 1.0f;
-	// (mystruct->projection_mat.m)[3][3] = 0.0f;
-	(mystruct->projection_mat.m)[0][0] = fFovRad;
+	(mystruct->projection_mat.m)[0][0] = fAspectRatio * fFovRad;
 	(mystruct->projection_mat.m)[1][1] = fFovRad;
-	(mystruct->projection_mat.m)[2][2] = -fFar / (fFar - fNear);
+	(mystruct->projection_mat.m)[2][2] = fFar / (fFar - fNear);
 	(mystruct->projection_mat.m)[3][2] = (-fFar * fNear) / (fFar - fNear);
-	(mystruct->projection_mat.m)[2][3] = -1.0f;
+	(mystruct->projection_mat.m)[2][3] = 1.0f;
 	(mystruct->projection_mat.m)[3][3] = 0.0f;
+// 	(mystruct->projection_mat.m)[0][0] = fFovRad;
+// 	(mystruct->projection_mat.m)[1][1] = fFovRad;
+// 	(mystruct->projection_mat.m)[2][2] = -fFar / (fFar - fNear);
+// 	(mystruct->projection_mat.m)[3][2] = (-fFar * fNear) / (fFar - fNear);
+// 	(mystruct->projection_mat.m)[2][3] = -1.0f;
+// 	(mystruct->projection_mat.m)[3][3] = 0.0f;
 }
 
 t_img	get_blank_image(t_mystruct *mystruct)
@@ -96,7 +96,7 @@ void    initialize_struct(t_mystruct *mystruct)
     mystruct->hyperplane = (char **)0;
 	mystruct->trigons = (t_tri *)0;
 	mystruct->blank_img = get_blank_image(mystruct);
-	mystruct->camera_position = (t_3d_pointf){0.0f, 0.0f, 0.0f};
+	mystruct->camera_position = (t_3d_pointf){-10.0f, -10.0f, -20.0f};
 	mystruct->maxima_Z = (t_2d_pointf){FLT_MAX, FLT_MIN};
 	initialize_proj_matr(mystruct);
 	initialize_global_vars();

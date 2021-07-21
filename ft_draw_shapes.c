@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:47:11 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 19:09:05 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/21 15:45:39 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,41 @@ t_2d_point colors)
 					round_to_nearest(cur_blue), 0);
 		t += increment;
 	}
+}
+
+void	draw_triangle_gradient(t_mystruct *mystruct, t_tri *T)
+{
+	float	ratio_P;
+	float	ratio_Q;
+	float	ratio_R;
+	t_tri	sorted;
+
+	sort_tri_by_y(&sorted, T);
+	ratio_P = 0.0f;
+	ratio_Q = 0.0f;
+	ratio_R = 0.0f;
+	if (mystruct->maxima_Z.y - mystruct->maxima_Z.x > 0.001f)
+	{
+		ratio_P = (sorted.p[2].z - mystruct->maxima_Z.x) / (mystruct->maxima_Z.y
+			- mystruct->maxima_Z.x);
+		ratio_Q = (sorted.p[1].z - mystruct->maxima_Z.x) / (mystruct->maxima_Z.y
+			- mystruct->maxima_Z.x);
+		ratio_R = (sorted.p[0].z - mystruct->maxima_Z.x) / (mystruct->maxima_Z.y
+			- mystruct->maxima_Z.x);
+	}
+	line_put_gradient(&mystruct->img, (t_2d_point){sorted.p[0].x,
+		sorted.p[0].y}, (t_2d_point){sorted.p[1].x, sorted.p[1].y},
+			(t_2d_point){get_relative_color((t_2d_point){g_mlx_blue,
+			g_mlx_green}, ratio_R), get_relative_color((t_2d_point){g_mlx_blue,
+			g_mlx_green}, ratio_Q)});
+	line_put_gradient(&mystruct->img, (t_2d_point){sorted.p[1].x,
+		sorted.p[1].y}, (t_2d_point){sorted.p[2].x, sorted.p[2].y},
+			(t_2d_point){get_relative_color((t_2d_point){g_mlx_blue,
+			g_mlx_green}, ratio_Q), get_relative_color((t_2d_point){g_mlx_blue,
+			g_mlx_green}, ratio_P)});
+	line_put_gradient(&mystruct->img, (t_2d_point){sorted.p[2].x,
+		sorted.p[2].y}, (t_2d_point){sorted.p[1].x, sorted.p[1].y},
+			(t_2d_point){get_relative_color((t_2d_point){g_mlx_blue,
+			g_mlx_green}, ratio_P), get_relative_color((t_2d_point){g_mlx_blue,
+			g_mlx_green}, ratio_Q)});
 }

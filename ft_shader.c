@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 13:31:48 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 20:11:52 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/21 15:46:23 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_colors.h"
 
 // 0 - bottom point, 1 - mid point, 2 - top point of the triangle on 2d plane
-static void	sort_tri_by_y(t_tri *dst, t_tri *src)
+void	sort_tri_by_y(t_tri *dst, t_tri *src)
 {
 	if ((*src).p[0].y > (*src).p[1].y)
 	{
@@ -114,7 +114,10 @@ void	shade_triangle(t_mystruct *mystruct, t_tri *tri)
 	increment_Z = (sorted.p[2].z - sorted.p[0].z) / (float)(sorted.p[2].y
 		- sorted.p[0].y);
 	relative_Z = mystruct->maxima_Z.y - mystruct->maxima_Z.x;
-	cur_Z = sorted.p[2].z;
+	if (relative_Z < 0.00001f)
+		return ;
+	cur_Z = (sorted.p[2].z - mystruct->maxima_Z.x) / (mystruct->maxima_Z.y
+		- mystruct->maxima_Z.x);
 	printf("sorted z: %f %f, cur_Z: %f, increment_Z: %f, relative_Z: %f\n", sorted.p[2].z, sorted.p[0].z, cur_Z, increment_Z, relative_Z);
 	sort_tri_by_y(&sorted, tri);
 	// printf("sorted: %d %d, %d %d, %d %d\n", sorted.p[0].x, sorted.p[0].y,
@@ -139,13 +142,13 @@ void	shade_triangle(t_mystruct *mystruct, t_tri *tri)
 				get_relative_color((t_2d_point){
 					g_mlx_blue,
 					g_mlx_green
-				}, cur_Z / relative_Z),
+				}, cur_Z),
 				get_relative_color((t_2d_point){
 					g_mlx_blue,
 					g_mlx_green
-				}, cur_Z / relative_Z)
+				}, cur_Z)
 			});
-			printf("Ratio: %f\n", cur_Z / relative_Z);
+			// printf("Ratio: %f\n", cur_Z / relative_Z);
 			cur_Z += increment_Z;
 		}
 		else
@@ -162,13 +165,13 @@ void	shade_triangle(t_mystruct *mystruct, t_tri *tri)
 				get_relative_color((t_2d_point){
 					g_mlx_blue,
 					g_mlx_green
-				}, cur_Z / relative_Z),
+				}, cur_Z),
 				get_relative_color((t_2d_point){
 					g_mlx_blue,
 					g_mlx_green
-				}, cur_Z / relative_Z)
+				}, cur_Z)
 			});
-			printf("Ratio: %f\n", cur_Z / relative_Z);
+			// printf("Ratio: %f\n", cur_Z / relative_Z);
 			cur_Z += increment_Z;
 		}
 	}
