@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 17:55:23 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/20 18:43:27 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/22 11:57:31 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	destroy_window(t_mystruct *mystruct)
 	return (0);
 }
 
-// MAC: x - 7, y - 16, z - 6
-static int	xyz_pressed(int keycode)
+// MAC: x - 7, y - 16, z - 6, u - 32
+static int	xyzu_pressed(int keycode)
 {
-	if (keycode == 7 || keycode == 16 || keycode == 6)
+	if (keycode == 7 || keycode == 16 || keycode == 6 || keycode == 32)
 		return (1);
 	return (0);
 }
@@ -38,8 +38,8 @@ static int	wasd_pressed(int keycode)
 	return (0);
 }
 
-// MAC: q - 12, e - 14, r - 15, t - 17
-static int	qert_pressed(int keycode)
+// MAC: q - 12, e - 14, r - 15, t - 17, f - 3, g - 5
+static int	qertfg_pressed(int keycode)
 {
 	if (keycode == 12 || keycode == 14 || keycode == 15 || keycode == 17)
 		return (1);
@@ -55,9 +55,9 @@ int	key_press_listener(int keycode, t_mystruct *mystruct)
 		destroy_window(mystruct);
 	if (wasd_pressed(keycode))
 		move_camera_position(mystruct, keycode);
-	if (xyz_pressed(keycode))
+	if (xyzu_pressed(keycode))
 		move_camera_distance(mystruct, keycode);
-	if (qert_pressed(keycode))
+	if (qertfg_pressed(keycode))
 		move_camera_angle(mystruct, keycode);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:08 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 19:00:54 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/22 10:34:33 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,8 @@ void    parse_map(t_mystruct *mystruct, char **argv)
 	mystruct->width = count_numbers(*mystruct->hyperplane);
 	mystruct->screen_pts = malloc(mystruct->height * mystruct->width
 		* sizeof(*mystruct->screen_pts));
+	mystruct->screen_index = malloc(mystruct->height * mystruct->width
+		* sizeof(*mystruct->screen_index));
 	convert_to_points(mystruct);
 	convert_to_trigons(mystruct);
 }

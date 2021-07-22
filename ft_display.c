@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:00:26 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/21 16:17:59 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/22 11:55:08 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,26 @@ void	connect_points(t_mystruct *mystruct)
 	{
 		x = -1;
 		while (++x < mystruct->width - 1)
+		{
+			if (!mystruct->screen_index[y * mystruct->width + x]
+				|| !mystruct->screen_index[y * mystruct->width + x + 1])
+				continue ;
 			line_put_parametric(&mystruct->img,
 				(mystruct->screen_pts)[y * mystruct->width + x],
 				(mystruct->screen_pts)[y * mystruct->width + x + 1], g_mlx_red);
+		}
 		x = -1;
 		if (y < mystruct->height - 1)
 			while (++x < mystruct->width)
+			{
+				if (!mystruct->screen_index[y * mystruct->width + x]
+				|| !mystruct->screen_index[(y + 1) * mystruct->width + x])
+					continue ;
 				line_put_parametric(&mystruct->img,
 					(mystruct->screen_pts)[y * mystruct->width + x],
 					(mystruct->screen_pts)[(y + 1) * mystruct->width + x],
 					g_mlx_red);
+			}
 	}
 }
 
@@ -62,11 +72,17 @@ void	draw_map(t_mystruct *mystruct)
 {
 	int			i;
 	int			tmp_mul;
+	t_3d_pointf	Z_old;
 	t_3d_pointf	Z;
 	t_3d_pointf	max;
 	t_2d_pointf	average;
+	t_2d_point	projected;
 	double		zoom_ratio;
 
+	// update rotation matrix
+	initialize_rot_matr(mystruct);
+	// clear previous screen
+	clear_img(&mystruct->img);
 	tmp_mul = mystruct->height * mystruct->width;
 	i = -1;
 	max.x = 0;
@@ -74,9 +90,15 @@ void	draw_map(t_mystruct *mystruct)
 	max.z = 0;
 	while (++i < tmp_mul)
 	{
-		Z.x = (mystruct->hyperplane_pts)[i].x;
-		Z.y = (mystruct->hyperplane_pts)[i].y;
-		Z.z = -(mystruct->hyperplane_pts)[i].z;
+		// displace
+		Z_old.x = (mystruct->hyperplane_pts)[i].x + mystruct->xy_displacement.x;
+		Z_old.y = (mystruct->hyperplane_pts)[i].y + mystruct->xy_displacement.y;
+		Z_old.z = -(mystruct->hyperplane_pts)[i].z;
+		// rotate
+		multiply_vec3d_m3x3(&Z_old, &Z, mystruct->rotation_matrices);
+		multiply_vec3d_m3x3(&Z, &Z_old, mystruct->rotation_matrices + 1);
+		multiply_vec3d_m3x3(&Z_old, &Z, mystruct->rotation_matrices + 2);
+		
 		calculate_average(&average, &Z, i);
 		if (abs_of(Z.z) > max.z)
 			max.z = abs_of(Z.z);
@@ -97,17 +119,31 @@ void	draw_map(t_mystruct *mystruct)
 	i = -1;
 	while (++i < tmp_mul)
 	{
-		Z.x = (mystruct->hyperplane_pts)[i].x;
-		Z.y = (mystruct->hyperplane_pts)[i].y;
-		Z.z = -(mystruct->hyperplane_pts)[i].z;
-		mystruct->screen_pts[i] = (t_2d_point){((Z.x * sqrt(3) / 2 + Z.y
-			* -sqrt(3) / 2) - average.x) * zoom_ratio + SCREEN_W / 2.0,
-			((Z.x * 1 / 2.0 + Z.y * 1 / 2.0 + Z.z * 3.0 / max.z) - average.y)
-			* zoom_ratio + SCREEN_H / 2.0};
+		// displace
+		Z_old.x = (mystruct->hyperplane_pts)[i].x + mystruct->xy_displacement.x;
+		Z_old.y = (mystruct->hyperplane_pts)[i].y + mystruct->xy_displacement.y;
+		Z_old.z = -(mystruct->hyperplane_pts)[i].z;
+		// rotate
+		multiply_vec3d_m3x3(&Z_old, &Z, mystruct->rotation_matrices);
+		multiply_vec3d_m3x3(&Z, &Z_old, mystruct->rotation_matrices + 1);
+		multiply_vec3d_m3x3(&Z_old, &Z, mystruct->rotation_matrices + 2);
+		
+		projected.x = ((Z.x * sqrt(3) / 2 + Z.y
+			* -sqrt(3) / 2) - average.x) * zoom_ratio + SCREEN_W / 2.0;
+		projected.y = ((Z.x * 1 / 2.0 + Z.y * 1 / 2.0 + Z.z * 3.0 / max.z) - average.y)
+			* zoom_ratio + SCREEN_H / 2.0;
+		if (projected.x < 0 || projected.x > SCREEN_W || projected.y < 0
+			|| projected.y > SCREEN_H)
+		{
+			mystruct->screen_index[i] = 0;
+			continue ;
+		}
+		mystruct->screen_pts[i] = projected;
+		mystruct->screen_index[i] = 1;
 	}
 	connect_points(mystruct);
 	// origin
-	my_mlx_pixel_put(&mystruct->img, SCREEN_W / 2, SCREEN_H / 2, g_mlx_green);
+	// my_mlx_pixel_put(&mystruct->img, SCREEN_W / 2, SCREEN_H / 2, g_mlx_green);
 	mlx_put_image_to_window(mystruct->vars.mlx, mystruct->vars.win,
 		mystruct->img.img, 0, 0);
 }

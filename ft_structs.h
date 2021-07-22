@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:18:04 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/20 20:16:12 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/22 11:52:40 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ typedef struct	s_mat4x4
 	float	m[4][4];
 }	t_mat4x4;
 
+typedef struct	s_mat3x3
+{
+	float	m[3][3];
+}	t_mat3x3;
+
 typedef struct	s_tri
 {
 	t_3d_pointf	p[3];
@@ -107,6 +112,8 @@ typedef struct  s_mystruct
 	int			width;
     t_3d_pointf *hyperplane_pts;
 	t_2d_point	*screen_pts;
+	// 1 displayed, 0 not displayed screen point
+	int			*screen_index;
 	t_mat4x4	projection_mat;
 	t_img		blank_img;
 	t_tri		*trigons;
@@ -116,6 +123,11 @@ typedef struct  s_mystruct
 	int			n_of_trigons;
 	t_3d_pointf	camera_position;
 	t_2d_pointf	maxima_Z;
+	// control camera for draw_map
+	t_2d_point	xy_displacement;
+	t_3d_pointf	rotation_angles;
+	// X, Y and Z rotation matrices
+	t_mat3x3	rotation_matrices[3];
 }   t_mystruct;
 
 #endif

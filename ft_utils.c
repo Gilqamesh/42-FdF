@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/21 14:54:00 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/22 11:40:43 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,14 @@ t_mat4x4 *m)
 		o->y /= w;
 		o->z /= w;
 	}
+}
+
+void	multiply_vec3d_m3x3(t_3d_pointf	*i, t_3d_pointf *o,
+t_mat3x3 *m)
+{
+	o->x = i->x * (m->m)[0][0] + i->y * (m->m)[1][0] + i->z * (m->m)[2][0];
+	o->y = i->x * (m->m)[0][1] + i->y * (m->m)[1][1] + i->z * (m->m)[2][1];
+	o->z = i->x * (m->m)[0][2] + i->y * (m->m)[1][2] + i->z * (m->m)[2][2];
 }
 
 double	min_of_3(double a, double b, double c)

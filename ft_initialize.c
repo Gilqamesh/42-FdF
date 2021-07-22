@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:48:28 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/21 14:57:42 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/22 11:51:29 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,28 @@ t_img	get_blank_image(t_mystruct *mystruct)
 	return (blank);
 }
 
+void	initialize_rot_matr(t_mystruct *mystruct)
+{
+	// rotate through X axis
+	mystruct->rotation_matrices[0].m[0][0] = 1;
+	mystruct->rotation_matrices[0].m[1][1] = cos(mystruct->rotation_angles.x);
+	mystruct->rotation_matrices[0].m[1][2] = -sin(mystruct->rotation_angles.x);
+	mystruct->rotation_matrices[0].m[2][1] = sin(mystruct->rotation_angles.x);
+	mystruct->rotation_matrices[0].m[2][2] = cos(mystruct->rotation_angles.x);
+	// rotate through Y axis
+	mystruct->rotation_matrices[1].m[0][0] = cos(mystruct->rotation_angles.y);
+	mystruct->rotation_matrices[1].m[0][2] = sin(mystruct->rotation_angles.y);
+	mystruct->rotation_matrices[1].m[1][1] = 1;
+	mystruct->rotation_matrices[1].m[2][0] = -sin(mystruct->rotation_angles.y);
+	mystruct->rotation_matrices[1].m[2][2] = cos(mystruct->rotation_angles.y);
+	// rotate through Z axis
+	mystruct->rotation_matrices[2].m[0][0] = cos(mystruct->rotation_angles.z);
+	mystruct->rotation_matrices[2].m[0][1] = -sin(mystruct->rotation_angles.z);
+	mystruct->rotation_matrices[2].m[1][0] = sin(mystruct->rotation_angles.z);
+	mystruct->rotation_matrices[2].m[1][1] = cos(mystruct->rotation_angles.z);
+	mystruct->rotation_matrices[2].m[2][2] = 1;
+}
+
 void    initialize_struct(t_mystruct *mystruct)
 {
 	ft_bzero(mystruct, sizeof(*mystruct));
@@ -99,5 +121,6 @@ void    initialize_struct(t_mystruct *mystruct)
 	mystruct->camera_position = (t_3d_pointf){-10.0f, -10.0f, -20.0f};
 	mystruct->maxima_Z = (t_2d_pointf){FLT_MAX, FLT_MIN};
 	initialize_proj_matr(mystruct);
+	initialize_rot_matr(mystruct);
 	initialize_global_vars();
 }

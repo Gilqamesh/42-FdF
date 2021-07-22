@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:45:41 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/21 15:46:27 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/22 11:49:44 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,8 @@ void	line_put_gradient(t_img *data, t_2d_point A, t_2d_point B,
 		t_2d_point colors);
 void	draw_triangle_gradient(t_mystruct *mystruct, t_tri *T);
 void	sort_tri_by_y(t_tri *dst, t_tri *src);
+void	multiply_vec3d_m3x3(t_3d_pointf	*i, t_3d_pointf *o,
+		t_mat3x3 *m);
+void	initialize_rot_matr(t_mystruct *mystruct);
 
 #endif
