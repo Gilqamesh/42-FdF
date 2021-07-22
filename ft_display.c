@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 16:00:26 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/22 11:55:08 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/22 13:09:00 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,10 @@ void	draw_map(t_mystruct *mystruct)
 		multiply_vec3d_m3x3(&Z_old, &Z, mystruct->rotation_matrices);
 		multiply_vec3d_m3x3(&Z, &Z_old, mystruct->rotation_matrices + 1);
 		multiply_vec3d_m3x3(&Z_old, &Z, mystruct->rotation_matrices + 2);
-		
+
 		projected.x = ((Z.x * sqrt(3) / 2 + Z.y
 			* -sqrt(3) / 2) - average.x) * zoom_ratio + SCREEN_W / 2.0;
-		projected.y = ((Z.x * 1 / 2.0 + Z.y * 1 / 2.0 + Z.z * 3.0 / max.z) - average.y)
+		projected.y = ((Z.x * 1 / 2.0 + Z.y * 1 / 2.0 + Z.z * 1.2 / max.z) - average.y)
 			* zoom_ratio + SCREEN_H / 2.0;
 		if (projected.x < 0 || projected.x > SCREEN_W || projected.y < 0
 			|| projected.y > SCREEN_H)

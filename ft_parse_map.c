@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 17:24:08 by gilq              #+#    #+#             */
-/*   Updated: 2021/07/22 10:34:33 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/22 12:56:05 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,19 +105,29 @@ static int	count_numbers(char *str)
 	return (number_counter);
 }
 
+static void	allocate_trigons(t_mystruct *mystruct)
+{
+	if (!mystruct->n_of_trigons)
+		mystruct->n_of_trigons = (mystruct->width - 1) * (mystruct->height
+			- 1) * 2;
+	if (!mystruct->trigons)
+		mystruct->trigons = malloc(mystruct->n_of_trigons
+			* sizeof(*mystruct->trigons));
+	if (!mystruct->projected_trigons)
+		mystruct->projected_trigons = malloc(mystruct->n_of_trigons
+			* sizeof(*mystruct->projected_trigons));
+	if (!mystruct->projected_trigons_index)
+		mystruct->projected_trigons_index = malloc(mystruct->n_of_trigons
+			* sizeof(*mystruct->projected_trigons_index));
+}
+
 void	convert_to_trigons(t_mystruct *mystruct)
 {
 	int	y;
 	int	x;
 	int	trigon_counter;
 
-	mystruct->n_of_trigons = (mystruct->width - 1) * (mystruct->height - 1) * 2;
-	mystruct->trigons = malloc(mystruct->n_of_trigons
-		* sizeof(*mystruct->trigons));
-	mystruct->projected_trigons = malloc(mystruct->n_of_trigons
-		* sizeof(*mystruct->projected_trigons));
-	mystruct->projected_trigons_index = malloc(mystruct->n_of_trigons
-		* sizeof(*mystruct->projected_trigons_index));
+	allocate_trigons(mystruct);
 	trigon_counter = 0;
 	y = -1;
 	// printf("*****\nTrigons:\n");
